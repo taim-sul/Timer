@@ -489,7 +489,10 @@ body {
     <div class="card">
       <div class="card-head">
         Medarbejdere
-        <button class="btn btn-gold btn-xs" onclick="addEmployee()">+ Tilføj</button>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="btn btn-gold btn-xs" onclick="addEmployee()">+ Tilføj</button>
+          <button class="btn btn-ghost btn-xs" onclick="clearSavedData()" title="Nulstil alle gemt data" style="font-size:.6rem;padding:3px 7px;color:#f88">↺ Nulstil</button>
+        </div>
       </div>
       <div class="card-body" style="padding:0">
         <ul class="emp-list" id="empList"></ul>
@@ -1299,6 +1302,7 @@ function onOeChange() {
   renderEmpForm();
   renderCards();
   renderSummary();
+  saveState();
 }
 
 function shiftPeriod(dir) {
@@ -1325,33 +1329,87 @@ function renderAll() {
   renderCards();
   renderSummary();
   renderRevPanel();
+  saveState();
+}
+
+/* ══════════════════════════════════════════════════════
+   PERSIST – localStorage
+══════════════════════════════════════════════════════ */
+const STORAGE_KEY = 'timeseddel_ka_v1';
+
+function saveState() {
+  try {
+    const payload = {
+      employees:   state.employees,
+      nextId:      state.nextId,
+      editEmpId:   state.editEmpId,
+      activeEmpId: state.activeEmpId,
+      dayEntries:  state.dayEntries,
+      manualRates: state.manualRates,
+      oe:          document.getElementById('oeInp')?.value  ?? '4.25',
+      month:       document.getElementById('selMonth')?.value,
+      year:        document.getElementById('selYear')?.value,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch(e) { /* storage full or blocked – fail silently */ }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    if (!s.employees || !Array.isArray(s.employees)) return false;
+
+    state.employees   = s.employees;
+    state.nextId      = s.nextId      ?? (Math.max(0, ...s.employees.map(e => e.id)) + 1);
+    state.editEmpId   = s.editEmpId   ?? s.employees[0]?.id ?? null;
+    state.activeEmpId = s.activeEmpId ?? s.employees[0]?.id ?? null;
+    state.dayEntries  = s.dayEntries  ?? {};
+    state.manualRates = s.manualRates ?? {};
+
+    if (s.oe    != null) document.getElementById('oeInp').value    = s.oe;
+    if (s.month != null) document.getElementById('selMonth').value = s.month;
+    if (s.year  != null) document.getElementById('selYear').value  = s.year;
+
+    return true;
+  } catch(e) { return false; }
+}
+
+function clearSavedData() {
+  if (!confirm('Nulstil alt gemt data?\nAlle medarbejdere og timesedler slettes permanent.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
 }
 
 /* ══════════════════════════════════════════════════════
    INIT
 ══════════════════════════════════════════════════════ */
 (function init() {
-  // Auto-set current period
+  // Auto-set current period (may be overridden by saved state below)
   const now = new Date();
   let m = now.getMonth(), y = now.getFullYear();
   if (now.getDate() < 20) { m--; if (m < 0) { m = 11; y--; } }
   document.getElementById('selMonth').value = m;
   document.getElementById('selYear').value  = y;
 
-  // Demo employees
-  [
-    { id:1, name:'Lars Andersen',   type:'chauffør',  targetMonthly:'28000' },
-    { id:2, name:'Mette Sørensen',  type:'medhælper', targetMonthly:'26000' },
-    { id:3, name:'Jan Christensen', type:'chauffør',  targetMonthly:'' },
-  ].forEach(e => {
-    state.employees.push(e);
-    state.manualRates[e.id] = null;
-    simulateEmployeePeriod(e.id);
-  });
+  const restored = loadState();
 
-  state.nextId      = 4;
-  state.editEmpId   = 1;
-  state.activeEmpId = 1;
+  if (!restored) {
+    // First-time: load demo employees
+    [
+      { id:1, name:'Lars Andersen',   type:'chauffør',  targetMonthly:'28000' },
+      { id:2, name:'Mette Sørensen',  type:'medhælper', targetMonthly:'26000' },
+      { id:3, name:'Jan Christensen', type:'chauffør',  targetMonthly:'' },
+    ].forEach(e => {
+      state.employees.push(e);
+      state.manualRates[e.id] = null;
+      simulateEmployeePeriod(e.id);
+    });
+    state.nextId      = 4;
+    state.editEmpId   = 1;
+    state.activeEmpId = 1;
+  }
 
   renderAll();
 })();
