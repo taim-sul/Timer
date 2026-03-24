@@ -39,215 +39,296 @@
   --blue-bg:   #d5e3f5;
   --orange:    #8f3e06;
   --orange-bg: #fde0bc;
+  --nav-h:     60px;
+  --top-h:     52px;
+  --safe-bot:  env(safe-area-inset-bottom, 0px);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px; line-height: 1.5;
+  font-size: 14px; line-height: 1.5;
   color: var(--ink); background: var(--bg);
   min-height: 100vh;
+  /* Push content above bottom nav */
+  padding-bottom: calc(var(--nav-h) + var(--safe-bot));
 }
 
-/* ── HEADER ──────────────────────────────────────────── */
-.hdr {
-  background: var(--ink); position: sticky; top: 0; z-index: 400;
-  box-shadow: 0 2px 14px rgba(0,0,0,.45);
+/* ── TOP BAR ─────────────────────────────────────────── */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 400;
+  height: var(--top-h);
+  background: var(--ink);
+  display: flex; align-items: center;
+  padding: 0 12px; gap: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.4);
 }
-.hdr-inner {
-  max-width: 1340px; margin: 0 auto;
-  display: flex; align-items: stretch;
-}
-.hdr-brand {
+.top-brand {
   background: var(--gold); color: var(--ink);
-  padding: 10px 20px; min-width: 175px; flex-shrink: 0;
-  display: flex; flex-direction: column; justify-content: center;
+  padding: 4px 10px; border-radius: 3px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 1rem; letter-spacing: .05em;
+  white-space: nowrap; flex-shrink: 0;
 }
-.hdr-brand-t { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: .05em; line-height: 1; }
-.hdr-brand-s { font-size: .5rem; letter-spacing: .16em; text-transform: uppercase; opacity: .7; margin-top: 3px; }
-.hdr-ctrls {
-  flex: 1; display: flex; align-items: center;
-  padding: 8px 18px; gap: 12px; flex-wrap: wrap;
+.top-period {
+  display: flex; align-items: center; gap: 6px; flex: 1;
 }
-.hdr-field { display: flex; flex-direction: column; gap: 3px; }
-.hdr-lbl { font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; color: #999; }
-.hdr-sel, .hdr-inp {
-  background: #22221a; border: 1px solid #454538;
-  color: #f1ede4; padding: 5px 9px;
-  font-family: 'IBM Plex Mono', monospace; font-size: .78rem;
-  border-radius: 3px; outline: none; transition: border-color .15s;
+.top-period-lbl {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .85rem; font-weight: 700; letter-spacing: .03em;
+  color: #f1ede4; white-space: nowrap; flex: 1; text-align: center;
 }
-.hdr-sel:focus, .hdr-inp:focus { border-color: var(--gold); }
-.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 8px; padding-right: 4px; }
+.top-arr {
+  background: #2e2e24; border: 1px solid #555; color: #ccc;
+  width: 32px; height: 32px; border-radius: 3px;
+  font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.top-arr:active { background: #454538; }
+.top-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.top-btn {
+  background: #2e2e24; border: 1px solid #555; color: #ccc;
+  height: 32px; padding: 0 10px; border-radius: 3px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .78rem; font-weight: 700; letter-spacing: .05em;
+  cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .1s;
+}
+.top-btn:active { background: #454538; }
+.top-btn.excel { background: #1a5c28; border-color: #1a5c28; color: white; }
+.top-btn.excel:active { background: #14461e; }
 
-/* ── BUTTONS ─────────────────────────────────────────── */
-.btn {
-  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-  font-size: .88rem; letter-spacing: .07em; text-transform: uppercase;
-  border: none; border-radius: 3px; cursor: pointer;
-  padding: 7px 16px; transition: all .15s; white-space: nowrap;
+/* ── MAIN CONTENT ────────────────────────────────────── */
+.screens {
+  padding-top: calc(var(--top-h) + 8px);
 }
-.btn-gold   { background: var(--gold); color: var(--ink); }
-.btn-gold:hover { background: #d69e0a; transform: translateY(-1px); }
-.btn-ghost  { background: #2e2e24; color: #ccc; border: 1px solid #555; }
-.btn-ghost:hover { background: #3a3a2e; color: #eee; }
-.btn-danger { background: transparent; color: var(--red); border: 1px solid var(--red-bg); }
-.btn-danger:hover { background: var(--red-bg); }
-.btn-sm  { padding: 4px 12px; font-size: .78rem; }
-.btn-xs  { padding: 3px 8px;  font-size: .7rem; }
-.btn-icon { padding: 4px 7px; font-size: .82rem; }
+.screen {
+  display: none;
+  padding: 12px 12px 8px;
+  min-height: calc(100vh - var(--top-h) - var(--nav-h) - var(--safe-bot));
+}
+.screen.active { display: block; }
 
-/* ── LAYOUT ──────────────────────────────────────────── */
-.layout {
-  max-width: 1340px; margin: 0 auto; padding: 22px 18px;
-  display: grid; grid-template-columns: 300px 1fr; gap: 20px; align-items: start;
+/* ── BOTTOM NAV ──────────────────────────────────────── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+  height: calc(var(--nav-h) + var(--safe-bot));
+  padding-bottom: var(--safe-bot);
+  background: var(--ink);
+  display: flex; border-top: 2px solid #333;
+  box-shadow: 0 -2px 12px rgba(0,0,0,.35);
 }
+.nav-tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  cursor: pointer; color: #777;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .15s; padding: 6px 0;
+  border: none; background: none;
+}
+.nav-tab.active { color: var(--gold); }
+.nav-tab:active { color: #d69e0a; }
+.nav-icon { font-size: 1.3rem; line-height: 1; }
+.nav-lbl  { font-size: .58rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; }
 
 /* ── CARD ────────────────────────────────────────────── */
 .card {
   background: var(--paper); border: 1.5px solid var(--rule);
-  border-radius: 5px; box-shadow: 2px 3px 0 var(--rule); overflow: hidden;
+  border-radius: 8px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
-.card + .card { margin-top: 16px; }
+.card + .card { margin-top: 12px; }
 .card-head {
-  padding: 9px 15px; background: var(--ink); color: var(--gold);
+  padding: 10px 14px; background: var(--ink); color: var(--gold);
   font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-  font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+  font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
   display: flex; align-items: center; justify-content: space-between;
 }
 .card-head .ch-sub { color: #777; font-size: .65rem; font-weight: 400; text-transform: none; letter-spacing: 0; }
-.card-body { padding: 14px 15px; }
+.card-body { padding: 14px; }
 
-/* ── SIDEBAR ─────────────────────────────────────────── */
-.sidebar { display: flex; flex-direction: column; gap: 16px; }
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: .9rem; letter-spacing: .07em; text-transform: uppercase;
+  border: none; border-radius: 4px; cursor: pointer;
+  padding: 8px 16px; transition: all .15s; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-gold   { background: var(--gold); color: var(--ink); }
+.btn-gold:active { background: #d69e0a; }
+.btn-ghost  { background: #2e2e24; color: #ccc; border: 1px solid #555; }
+.btn-ghost:active { background: #3a3a2e; }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid var(--red-bg); }
+.btn-danger:active { background: var(--red-bg); }
+.btn-sm  { padding: 6px 14px; font-size: .82rem; }
+.btn-xs  { padding: 4px 10px; font-size: .74rem; }
 
+/* ── OE BOX ──────────────────────────────────────────── */
 .oe-box {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   padding: 10px 14px; background: var(--gold-bg);
-  border: 1.5px solid var(--gold); border-radius: 4px;
+  border: 1.5px solid var(--gold); border-radius: 6px;
 }
-.oe-box label { font-size: .55rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gold-dk); font-weight: 600; white-space: nowrap; }
+.oe-box label { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gold-dk); font-weight: 600; }
 .oe-inp {
-  width: 78px; background: white; border: 1px solid var(--gold);
-  padding: 5px 8px; font-family: 'IBM Plex Mono', monospace;
-  font-size: .82rem; border-radius: 2px; outline: none; color: var(--ink);
+  width: 80px; background: white; border: 1px solid var(--gold);
+  padding: 6px 8px; font-family: 'IBM Plex Mono', monospace;
+  font-size: .9rem; border-radius: 3px; outline: none; color: var(--ink);
 }
-.oe-inp:focus { border-color: var(--ink); }
 .oe-hint { font-size: .62rem; color: var(--gold-dk); }
 
-/* Employee list */
+/* ── EMPLOYEE LIST ───────────────────────────────────── */
 .emp-list { list-style: none; }
 .emp-li {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 12px; border-bottom: 1px solid var(--rule-lt);
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-bottom: 1px solid var(--rule-lt);
   cursor: pointer; transition: background .1s;
+  -webkit-tap-highlight-color: transparent;
 }
 .emp-li:last-child { border-bottom: none; }
-.emp-li:hover { background: #f6f2ea; }
+.emp-li:active { background: #f6f2ea; }
 .emp-li.sel { background: var(--gold-bg); border-left: 3px solid var(--gold); }
 .emp-li.sel .eli-name { color: var(--gold-dk); }
-.eli-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.eli-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .dot-c { background: var(--gold); }
 .dot-m { background: var(--green); }
-.eli-name { font-weight: 500; font-size: .8rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.eli-type { font-size: .6rem; color: var(--muted); white-space: nowrap; }
-.eli-rate { font-size: .68rem; color: var(--green); font-weight: 500; margin-left: auto; white-space: nowrap; }
-.eli-del  { background: none; border: none; color: var(--rule); cursor: pointer; font-size: .88rem; padding: 1px 4px; transition: color .15s; }
-.eli-del:hover { color: var(--red); }
+.eli-name { font-weight: 500; font-size: .88rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.eli-type { font-size: .62rem; color: var(--muted); white-space: nowrap; }
+.eli-rate { font-size: .7rem; color: var(--green); font-weight: 500; margin-left: auto; white-space: nowrap; }
+.eli-del  { background: none; border: none; color: var(--rule); cursor: pointer; font-size: 1rem; padding: 4px 6px; }
+.eli-del:active { color: var(--red); }
 
-/* Emp form */
-.form-grid { display: flex; flex-direction: column; gap: 9px; }
-.fg-row   { display: flex; flex-direction: column; gap: 3px; }
-.fg-lbl   { font-size: .55rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 500; }
+/* ── EMP FORM ────────────────────────────────────────── */
+.form-grid { display: flex; flex-direction: column; gap: 12px; }
+.fg-row   { display: flex; flex-direction: column; gap: 4px; }
+.fg-lbl   { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 500; }
 .fg-inp, .fg-sel {
   background: #f5f1e8; border: 1px solid var(--rule);
-  color: var(--ink); padding: 6px 9px;
-  font-family: 'IBM Plex Mono', monospace; font-size: .8rem;
-  border-radius: 3px; outline: none; width: 100%;
-  transition: border-color .15s;
+  color: var(--ink); padding: 10px 12px;
+  font-family: 'IBM Plex Mono', monospace; font-size: .9rem;
+  border-radius: 4px; outline: none; width: 100%;
 }
 .fg-inp:focus, .fg-sel:focus { border-color: var(--gold); background: white; }
 .fg-computed {
-  padding: 5px 9px; border-radius: 3px; font-size: .75rem; font-weight: 500;
+  padding: 8px 12px; border-radius: 4px; font-size: .8rem; font-weight: 500;
   background: var(--green-bg); color: var(--green);
 }
 .fg-computed.warn { background: var(--red-bg); color: var(--red); }
-.fg-hint { font-size: .56rem; color: var(--muted); }
+.fg-hint { font-size: .6rem; color: var(--muted); }
 
-/* ── TIMESEDDEL AREA ─────────────────────────────────── */
-.ts-area { display: flex; flex-direction: column; gap: 18px; }
-
-.period-bar {
-  display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+/* ── REVERSE BOX ─────────────────────────────────────── */
+.rev-box {
+  background: var(--blue-bg); border: 1.5px solid var(--blue);
+  border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px;
 }
-.period-title  { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: .02em; }
-.period-sub    { font-size: .63rem; color: var(--muted); margin-top: 2px; }
-.period-btns   { display: flex; gap: 6px; }
+.rev-title { font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); font-weight: 700; }
+.rev-emp-row { display: flex; flex-direction: column; gap: 4px; }
+.rev-emp-lbl { font-size: .62rem; color: var(--blue); font-weight: 600; }
+.rev-inp-row { display: flex; gap: 8px; align-items: center; }
+.rev-inp {
+  flex: 1; background: white; border: 1px solid var(--blue);
+  padding: 8px 10px; font-family: 'IBM Plex Mono', monospace;
+  font-size: .9rem; border-radius: 3px; outline: none; color: var(--ink);
+}
+.rev-hint { font-size: .6rem; color: var(--muted); }
+.rev-preview {
+  font-size: .7rem; padding: 8px 10px; border-radius: 3px;
+  background: white; border: 1px solid var(--rule); line-height: 1.7;
+}
+.rev-preview b { color: var(--blue); }
+.rev-preview .rev-warn { color: var(--orange); }
+.btn-rev-apply {
+  background: var(--blue); color: white; border: none;
+  padding: 12px; width: 100%; font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: .95rem; letter-spacing: .06em; text-transform: uppercase;
+  border-radius: 4px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-rev-apply:active { opacity: .85; }
 
-/* Employee tabs */
-.emp-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--rule); flex-wrap: wrap; }
-.emp-tab  {
-  padding: 7px 16px; cursor: pointer;
-  font-size: .72rem; font-weight: 500;
-  border: 1.5px solid transparent; border-bottom: none;
-  border-radius: 4px 4px 0 0; margin-bottom: -2px;
-  display: flex; align-items: center; gap: 7px;
+/* ── EMPLOYEE NAV (Timeseddel screen) ────────────────── */
+.emp-nav {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--paper); border: 1.5px solid var(--rule);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;
+}
+.emp-nav-arr {
+  background: var(--ink); color: var(--gold);
+  width: 38px; height: 38px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; cursor: pointer; flex-shrink: 0; border: none;
+  -webkit-tap-highlight-color: transparent;
   transition: background .1s;
 }
-.emp-tab:hover { background: var(--gold-bg); }
-.emp-tab.active {
-  background: var(--paper); border-color: var(--rule);
-  border-bottom-color: var(--paper);
+.emp-nav-arr:active { background: #2e2e24; }
+.emp-nav-arr:disabled { opacity: .3; cursor: default; }
+.emp-nav-info { flex: 1; text-align: center; min-width: 0; }
+.emp-nav-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 1.15rem; letter-spacing: .02em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.tab-dot { width: 7px; height: 7px; border-radius: 50%; }
+.emp-nav-sub { font-size: .58rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+.emp-nav-dots { display: flex; gap: 5px; justify-content: center; margin-top: 4px; }
+.emp-nav-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rule); transition: background .15s;
+}
+.emp-nav-dot.active { background: var(--gold); }
 
-/* Timeseddel card */
+/* ── TIMESEDDEL CARD ─────────────────────────────────── */
 .ts-card {
   background: var(--paper); border: 1.5px solid var(--rule);
-  border-radius: 0 5px 5px 5px; box-shadow: 2px 3px 0 var(--rule); overflow: hidden;
+  border-radius: 8px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 .ts-card-head {
   background: var(--ink); color: #f1ede4;
-  padding: 11px 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
 }
-.tch-name  { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: .03em; }
+.tch-name  { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 800; letter-spacing: .03em; }
 .tch-badge {
   font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  padding: 3px 9px; border-radius: 20px;
+  padding: 3px 8px; border-radius: 20px;
 }
 .badge-c { background: var(--gold); color: var(--ink); }
 .badge-m { background: var(--green); color: white; }
-.tch-period { font-size: .6rem; color: #999; }
+.tch-period { font-size: .58rem; color: #888; }
 
-/* Rate editor in card head */
-.rate-editor { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-.rate-lbl    { font-size: .55rem; color: #888; text-align: right; line-height: 1.4; }
+/* Rate editor */
+.rate-editor { width: 100%; display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.rate-lbl    { font-size: .56rem; color: #888; line-height: 1.4; }
 .rate-inp    {
-  width: 88px; background: #2a2a1e; border: 1px solid #666;
-  color: var(--gold); padding: 4px 8px; text-align: right;
-  font-family: 'IBM Plex Mono', monospace; font-size: .88rem; font-weight: 600;
-  border-radius: 3px; outline: none; transition: border-color .15s;
+  width: 90px; background: #2a2a1e; border: 1px solid #666;
+  color: var(--gold); padding: 5px 8px; text-align: right;
+  font-family: 'IBM Plex Mono', monospace; font-size: .9rem; font-weight: 600;
+  border-radius: 3px; outline: none;
 }
-.rate-inp:focus { border-color: var(--gold); background: #1c1c12; }
+.rate-inp:focus { border-color: var(--gold); }
 .rate-unit { font-size: .7rem; color: #aaa; }
 .btn-save-rate {
   background: var(--gold); color: var(--ink); border: none;
-  padding: 4px 10px; font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: .74rem; letter-spacing: .05em;
-  border-radius: 3px; cursor: pointer; transition: opacity .15s;
+  padding: 5px 12px; font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: .78rem; letter-spacing: .05em;
+  border-radius: 3px; cursor: pointer;
 }
-.btn-save-rate:hover { opacity: .85; }
 .btn-reset-rate {
   background: #383828; color: #bbb; border: none;
-  padding: 4px 8px; font-family: 'IBM Plex Mono', monospace;
-  font-size: .65rem; border-radius: 3px; cursor: pointer; transition: opacity .15s;
+  padding: 5px 8px; font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem; border-radius: 3px; cursor: pointer;
 }
-.btn-reset-rate:hover { opacity: .85; }
 
-/* Day table */
-.day-table { width: 100%; border-collapse: collapse; font-size: .75rem; }
+/* Day table – horizontal scroll on mobile */
+.day-table-wrap {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.day-table { width: 100%; border-collapse: collapse; font-size: .78rem; min-width: 520px; }
 .day-table thead th {
-  padding: 7px 10px; background: #f6f3ea; border-bottom: 1.5px solid var(--rule);
+  padding: 8px 8px; background: #f6f3ea; border-bottom: 1.5px solid var(--rule);
   text-align: left; font-size: .54rem; letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted); font-weight: 500; white-space: nowrap;
 }
@@ -255,224 +336,191 @@ body {
 .day-table thead th.tr { text-align: right; }
 .day-table thead th.th-ot1 { color: var(--orange); }
 .day-table thead th.th-ot2 { color: var(--red); }
-
 .day-table tbody td {
-  padding: 5px 10px; border-bottom: 1px solid var(--rule-lt);
-  vertical-align: middle;
+  padding: 7px 8px; border-bottom: 1px solid var(--rule-lt); vertical-align: middle;
 }
 .day-table tbody tr:last-child td { border-bottom: none; }
 .day-table tbody tr.tr-sat td { background: #fdf9ed; }
 .day-table tbody tr.tr-off td { background: #f7f5ef; }
-.day-table tbody tr.tr-off:hover td { background: #f3f0e8; }
-.day-table tbody tr:not(.tr-off):not(.tr-sep):not(.tr-rate-change):hover td { background: #fdfbe8; }
-
-/* Week separator */
 .tr-sep td {
-  padding: 4px 10px !important; background: #edeae0 !important;
+  padding: 5px 8px !important; background: #edeae0 !important;
   font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--rule) !important;
 }
-/* Rate change banner */
 .tr-rate-change td {
-  padding: 5px 10px !important; background: var(--gold-bg) !important;
+  padding: 5px 8px !important; background: var(--gold-bg) !important;
   font-size: .65rem; color: var(--orange); font-weight: 500;
   border-bottom: 1px solid var(--gold) !important;
 }
-
-/* Time input cells */
-.td-day  { font-weight: 600; white-space: nowrap; min-width: 58px; }
+.td-day  { font-weight: 600; white-space: nowrap; min-width: 46px; }
 .td-date { color: var(--muted); font-size: .68rem; white-space: nowrap; }
 .td-off  { color: var(--muted); font-style: italic; font-size: .7rem; }
-
 .t-inp {
-  width: 64px; background: white; border: 1px solid var(--rule);
-  padding: 4px 6px; text-align: center;
-  font-family: 'IBM Plex Mono', monospace; font-size: .78rem;
-  border-radius: 3px; outline: none; transition: border-color .15s;
+  width: 60px; background: white; border: 1px solid var(--rule);
+  padding: 5px 4px; text-align: center;
+  font-family: 'IBM Plex Mono', monospace; font-size: .8rem;
+  border-radius: 3px; outline: none;
   font-variant-numeric: tabular-nums;
 }
 .t-inp:focus { border-color: var(--gold); background: #fffef2; }
 .t-inp.invalid { border-color: var(--red) !important; background: var(--red-bg) !important; }
 .t-inp:disabled { background: #f0ede4; color: var(--muted); cursor: not-allowed; border-color: var(--rule-lt); }
-
-.td-pause { color: var(--muted); font-size: .68rem; text-align: center; }
+.td-pause { color: var(--muted); font-size: .65rem; text-align: center; }
 .td-hours { color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
 .td-ot1   { color: var(--orange); font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
 .td-ot2   { color: var(--red);    font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
 .td-earn  { color: var(--green);  font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
 .td-none  { color: var(--muted); font-weight: 400; text-align: center; }
-
-/* Fri toggle */
-.fri-toggle {
-  display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden;
-}
+.fri-toggle { display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
 .fri-btn {
-  background: none; border: none; padding: 3px 8px;
+  background: none; border: none; padding: 4px 7px;
   font-family: 'IBM Plex Mono', monospace; font-size: .63rem;
-  cursor: pointer; transition: all .12s; white-space: nowrap;
+  cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 .fri-btn-work { color: var(--green); }
-.fri-btn-work.active, .fri-btn-work:hover { background: var(--green-bg); color: var(--green); }
+.fri-btn-work.active, .fri-btn-work:active { background: var(--green-bg); color: var(--green); }
 .fri-btn-off  { color: var(--muted); border-left: 1px solid var(--rule); }
-.fri-btn-off.active, .fri-btn-off:hover  { background: var(--red-bg); color: var(--red); }
+.fri-btn-off.active, .fri-btn-off:active  { background: var(--red-bg); color: var(--red); }
 
-/* Card footer */
+/* Card footer stats */
 .ts-footer {
-  display: flex; align-items: stretch; flex-wrap: wrap;
-  background: #f5f2e8; border-top: 1.5px solid var(--rule);
-  gap: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  background: #f5f2e8; border-top: 1.5px solid var(--rule); gap: 0;
 }
 .foot-stat {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 10px 16px; border-right: 1px solid var(--rule);
-  min-width: 90px;
+  padding: 10px 8px; border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
 }
-.foot-stat:last-child { border-right: none; margin-left: auto; min-width: 120px; }
-.foot-lbl  { font-size: .52rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 2px; text-align: center; }
-.foot-val  { font-size: .92rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.foot-stat:nth-child(3n) { border-right: none; }
+.foot-stat:nth-last-child(-n+3) { border-bottom: none; }
+.foot-lbl  { font-size: .5rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 2px; text-align: center; }
+.foot-val  { font-size: .88rem; font-weight: 600; font-variant-numeric: tabular-nums; }
 .fv-blue   { color: var(--blue); }
 .fv-orange { color: var(--orange); }
 .fv-red    { color: var(--red); }
 .fv-gold   { color: var(--gold); }
 .fv-green  { color: var(--green); }
-.foot-meta { padding: 10px 14px; font-size: .58rem; color: var(--muted); line-height: 1.7; margin-left: auto; text-align: right; border-left: 1px solid var(--rule); }
+.foot-meta { grid-column: 1/-1; padding: 8px 12px; font-size: .56rem; color: var(--muted); line-height: 1.7; text-align: center; border-top: 1px solid var(--rule); }
+
+/* Rate change note */
+.rate-change-note { font-size: .58rem; color: var(--orange); display: block; }
+.empty-state { padding: 28px; text-align: center; color: var(--muted); font-size: .85rem; }
 
 /* ── SUMMARY TABLE ───────────────────────────────────── */
-.sum-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+.sum-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
 .sum-table th {
-  padding: 7px 12px; border-bottom: 1.5px solid var(--rule);
-  text-align: left; font-size: .54rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 8px 10px; border-bottom: 1.5px solid var(--rule);
+  text-align: left; font-size: .56rem; letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted); font-weight: 500;
 }
 .sum-table th.tr { text-align: right; }
-.sum-table td { padding: 8px 12px; border-bottom: 1px solid var(--rule-lt); vertical-align: middle; }
+.sum-table td { padding: 10px 10px; border-bottom: 1px solid var(--rule-lt); vertical-align: middle; }
 .sum-table tbody tr:last-child td { border-bottom: none; }
-.sum-table tbody tr:hover td { background: #fafae8; }
 .sum-badge {
-  font-size: .57rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
   padding: 2px 7px; border-radius: 2px;
 }
 .sb-c { background: var(--gold-bg); color: var(--gold-dk); }
 .sb-m { background: var(--green-bg); color: var(--green); }
 .sum-grand {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 11px 14px; margin-top: 12px; border-top: 2px solid var(--ink);
+  padding: 14px; margin-top: 12px; border-top: 2px solid var(--ink);
   font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 800;
 }
 .sum-grand-val { color: var(--green); }
 
-/* ── HELPERS ─────────────────────────────────────────── */
-.tc { text-align: center; }
-.tr { text-align: right; }
-.rate-change-note { font-size: .58rem; color: var(--orange); display: block; }
-.empty-state { padding: 28px; text-align: center; color: var(--muted); font-size: .8rem; }
-
-
-/* ── REVERSE MODE ────────────────────────────────────── */
-.rev-box {
-  background: var(--blue-bg); border: 1.5px solid var(--blue);
-  border-radius: 4px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px;
+/* ── PERIOD PICKER (modal-ish) ───────────────────────── */
+.period-sheet {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 500;
+  background: var(--ink); border-top: 2px solid var(--gold);
+  border-radius: 16px 16px 0 0; padding: 18px 20px 24px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.5);
 }
-.rev-title { font-size: .58rem; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); font-weight: 700; margin-bottom: 2px; }
-.rev-emp-row { display: flex; flex-direction: column; gap: 4px; }
-.rev-emp-lbl { font-size: .58rem; color: var(--blue); font-weight: 600; }
-.rev-inp-row { display: flex; gap: 6px; align-items: center; }
-.rev-inp {
-  flex: 1; background: white; border: 1px solid var(--blue);
-  padding: 5px 8px; font-family: 'IBM Plex Mono', monospace;
-  font-size: .82rem; border-radius: 3px; outline: none; color: var(--ink);
-  transition: border-color .15s;
+.period-sheet.open { display: block; }
+.period-sheet-title {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  font-size: 1rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px; text-align: center;
 }
-.rev-inp:focus { border-color: var(--ink); }
-.rev-hint { font-size: .56rem; color: var(--muted); }
-.rev-preview {
-  font-size: .65rem; padding: 6px 8px; border-radius: 3px;
-  background: white; border: 1px solid var(--rule); line-height: 1.6;
+.period-sheet-row { display: flex; gap: 10px; }
+.hdr-sel, .hdr-inp {
+  background: #22221a; border: 1px solid #454538;
+  color: #f1ede4; padding: 10px 12px;
+  font-family: 'IBM Plex Mono', monospace; font-size: .9rem;
+  border-radius: 4px; outline: none; flex: 1;
 }
-.rev-preview b { color: var(--blue); }
-.rev-preview .rev-warn { color: var(--orange); }
-.btn-rev-apply {
-  background: var(--blue); color: white; border: none;
-  padding: 7px 0; width: 100%; font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: .88rem; letter-spacing: .06em; text-transform: uppercase;
-  border-radius: 3px; cursor: pointer; transition: opacity .15s;
+.hdr-sel:focus, .hdr-inp:focus { border-color: var(--gold); }
+.period-sheet-close {
+  width: 100%; margin-top: 12px;
+  background: var(--gold); color: var(--ink); border: none;
+  padding: 12px; font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 1rem; letter-spacing: .06em;
+  border-radius: 4px; cursor: pointer;
 }
-.btn-rev-apply:hover { opacity: .85; }
-
-/* ── EXCEL EXPORT BUTTON ─────────────────────────────── */
-.btn-excel {
-  background: #1d6a2e; color: white;
-  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-  font-size: .88rem; letter-spacing: .07em; text-transform: uppercase;
-  border: none; border-radius: 3px; cursor: pointer;
-  padding: 7px 16px; transition: all .15s; white-space: nowrap;
+.period-overlay {
+  display: none; position: fixed; inset: 0; z-index: 499;
+  background: rgba(0,0,0,.5);
 }
-.btn-excel:hover { background: #17551f; transform: translateY(-1px); }
+.period-overlay.open { display: block; }
 
 /* ── PRINT ───────────────────────────────────────────── */
 @media print {
-  .hdr { position: static; }
-  .sidebar, .period-btns, .fri-toggle, .rate-editor .btn-save-rate,
-  .rate-editor .btn-reset-rate, .btn { display: none !important; }
-  .layout { grid-template-columns: 1fr; }
-  body { background: white; }
+  .top-bar, .bottom-nav, .period-sheet, .period-overlay,
+  .emp-nav, .fri-toggle, .rate-editor .btn-save-rate,
+  .rate-editor .btn-reset-rate { display: none !important; }
+  body { background: white; padding-bottom: 0; }
+  .screen { display: block !important; padding: 0; }
+  .screens { padding-top: 0; }
   .ts-card { box-shadow: none; page-break-after: always; }
 }
-@media (max-width: 800px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .sidebar.mob-open { display: flex; }
-  .hide-mobile { display: none !important; }
-}
-@media (min-width: 801px) {
-  .mob-sidebar-btn { display: none !important; }
-}
+
+/* Helpers */
+.tc { text-align: center; }
+.tr { text-align: right; }
 </style>
 </head>
 <body>
 
-<!-- ══ HEADER ═══════════════════════════════════════════ -->
-<header class="hdr">
-  <div class="hdr-inner">
-    <div class="hdr-brand">
-      <div class="hdr-brand-t">TIMESEDDEL</div>
-      <div class="hdr-brand-s">KA Transport · Fagoverenskomst</div>
-    </div>
-    <div class="hdr-ctrls">
-      <div class="hdr-field">
-        <span class="hdr-lbl">Lønperiode start</span>
-        <select class="hdr-sel" id="selMonth" onchange="onPeriodChange()" style="width:128px">
-          <option value="0">Januar</option><option value="1">Februar</option>
-          <option value="2">Marts</option><option value="3">April</option>
-          <option value="4">Maj</option><option value="5">Juni</option>
-          <option value="6">Juli</option><option value="7">August</option>
-          <option value="8">September</option><option value="9">Oktober</option>
-          <option value="10">November</option><option value="11">December</option>
-        </select>
-      </div>
-      <div class="hdr-field">
-        <span class="hdr-lbl">År</span>
-        <input type="number" class="hdr-inp" id="selYear" value="2026" min="2024" max="2030"
-          onchange="onPeriodChange()" style="width:80px">
-      </div>
-      <div class="hdr-right">
-        <button class="btn btn-ghost btn-sm mob-sidebar-btn" onclick="toggleSidebar()" title="Medarbejdere" id="sidebarToggleBtn">☰ Medarbj.</button>
-        <button class="btn btn-ghost btn-sm" onclick="shiftPeriod(-1)">← Forrige</button>
-        <button class="btn btn-ghost btn-sm" onclick="shiftPeriod(1)">Næste →</button>
-        <button class="btn btn-ghost btn-sm hide-mobile" onclick="window.print()">⎙ Print</button>
-        <button class="btn-excel btn-sm" onclick="exportExcel()">⬇ Excel</button>
-      </div>
-    </div>
+<!-- Period picker sheet -->
+<div class="period-overlay" id="periodOverlay" onclick="closePeriodSheet()"></div>
+<div class="period-sheet" id="periodSheet">
+  <div class="period-sheet-title">Vælg lønperiode</div>
+  <div class="period-sheet-row">
+    <select class="hdr-sel" id="selMonth" onchange="onPeriodChange()">
+      <option value="0">Januar</option><option value="1">Februar</option>
+      <option value="2">Marts</option><option value="3">April</option>
+      <option value="4">Maj</option><option value="5">Juni</option>
+      <option value="6">Juli</option><option value="7">August</option>
+      <option value="8">September</option><option value="9">Oktober</option>
+      <option value="10">November</option><option value="11">December</option>
+    </select>
+    <input type="number" class="hdr-inp" id="selYear" value="2026" min="2024" max="2030"
+      onchange="onPeriodChange()" style="max-width:90px">
   </div>
-</header>
+  <button class="period-sheet-close" onclick="closePeriodSheet()">OK</button>
+</div>
 
-<!-- ══ LAYOUT ════════════════════════════════════════════ -->
-<div class="layout">
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="top-brand">TIMESEDDEL</div>
+  <div class="top-period">
+    <button class="top-arr" onclick="shiftPeriod(-1)" title="Forrige periode">‹</button>
+    <div class="top-period-lbl" id="topPeriodLbl" onclick="openPeriodSheet()" style="cursor:pointer">—</div>
+    <button class="top-arr" onclick="shiftPeriod(1)" title="Næste periode">›</button>
+  </div>
+  <div class="top-actions">
+    <button class="top-btn excel" onclick="exportExcel()">⬇ Excel</button>
+  </div>
+</div>
 
-  <!-- ── SIDEBAR ────────────────────────────────────── -->
-  <aside class="sidebar">
+<!-- Screens -->
+<div class="screens">
 
-    <!-- OE -->
+  <!-- ── SCREEN 1: Medarbejdere ───────────────────────── -->
+  <div class="screen active" id="screen-medarbj">
+
     <div class="card">
       <div class="card-head">Overenskomsttillæg</div>
       <div class="card-body">
@@ -485,13 +533,12 @@ body {
       </div>
     </div>
 
-    <!-- Employee list -->
-    <div class="card">
+    <div class="card" style="margin-top:12px">
       <div class="card-head">
         Medarbejdere
         <div style="display:flex;gap:6px;align-items:center">
           <button class="btn btn-gold btn-xs" onclick="addEmployee()">+ Tilføj</button>
-          <button class="btn btn-ghost btn-xs" onclick="clearSavedData()" title="Nulstil alle gemt data" style="font-size:.6rem;padding:3px 7px;color:#f88">↺ Nulstil</button>
+          <button class="btn btn-ghost btn-xs" onclick="clearSavedData()" style="font-size:.6rem;padding:3px 7px;color:#f88">↺</button>
         </div>
       </div>
       <div class="card-body" style="padding:0">
@@ -499,8 +546,7 @@ body {
       </div>
     </div>
 
-    <!-- Employee edit form -->
-    <div class="card" id="empFormCard">
+    <div class="card" id="empFormCard" style="margin-top:12px">
       <div class="card-head">
         <span id="empFormTitle">Rediger medarbejder</span>
         <span class="ch-sub" id="empFormSub"></span>
@@ -510,42 +556,32 @@ body {
       </div>
     </div>
 
-    <!-- Reverse mode -->
-    <div class="card" id="revCard">
+    <div class="card" style="margin-top:12px">
       <div class="card-head">Baglæns timeseddel</div>
       <div class="card-body">
         <div class="rev-box">
           <div class="rev-title">Indtast ønskede timer → appen fordeler selv</div>
           <div id="revEmpRows"></div>
-          <div class="rev-hint">Normaltimer: 7,5t/dag. Hverdage fyldes først, lørdage sidst. Fri gives automatisk når timerne er brugt.</div>
+          <div class="rev-hint">Normaltimer: 7,5t/dag. Hverdage fyldes først, lørdage sidst.</div>
           <div id="revPreview" style="display:none" class="rev-preview"></div>
           <button class="btn-rev-apply" onclick="applyReverse()">Anvend på timeseddel</button>
         </div>
       </div>
     </div>
 
-  </aside>
+  </div>
 
-  <!-- ── TIMESEDDEL ──────────────────────────────────── -->
-  <main class="ts-area">
-
-    <div class="period-bar">
-      <div>
-        <div class="period-title" id="periodTitle">—</div>
-        <div class="period-sub"   id="periodSub"></div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="emp-tabs" id="empTabs"></div>
-
-    <!-- Card per employee (shown for active tab) -->
+  <!-- ── SCREEN 2: Timeseddel ─────────────────────────── -->
+  <div class="screen" id="screen-timeseddel">
+    <div id="empNavBar"></div>
     <div id="tsCards"></div>
+  </div>
 
-    <!-- Summary -->
-    <div class="card" id="summaryCard" style="display:none">
-      <div class="card-head">Periodeopsummering – alle medarbejdere</div>
-      <div class="card-body">
+  <!-- ── SCREEN 3: Opsummering ────────────────────────── -->
+  <div class="screen" id="screen-opsummering">
+    <div class="card" id="summaryCard">
+      <div class="card-head">Periodeopsummering</div>
+      <div class="card-body" style="overflow-x:auto">
         <table class="sum-table">
           <thead>
             <tr>
@@ -553,7 +589,6 @@ body {
               <th class="tc">Timer</th>
               <th class="tc">OT 1–3</th>
               <th class="tc">OT +3</th>
-              <th>Timeløn</th>
               <th class="tr">Periodeløn</th>
             </tr>
           </thead>
@@ -565,9 +600,25 @@ body {
         </div>
       </div>
     </div>
+  </div>
 
-  </main>
-</div>
+</div><!-- /screens -->
+
+<!-- Bottom nav -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" id="nav-medarbj" onclick="switchScreen('medarbj')">
+    <span class="nav-icon">👥</span>
+    <span class="nav-lbl">Medarbj.</span>
+  </button>
+  <button class="nav-tab" id="nav-timeseddel" onclick="switchScreen('timeseddel')">
+    <span class="nav-icon">📋</span>
+    <span class="nav-lbl">Timeseddel</span>
+  </button>
+  <button class="nav-tab" id="nav-opsummering" onclick="switchScreen('opsummering')">
+    <span class="nav-icon">📊</span>
+    <span class="nav-lbl">Opsummering</span>
+  </button>
+</nav>
 
 <script>
 'use strict';
@@ -797,7 +848,6 @@ function selectEmpForEdit(id) {
 
 function selectTab(id) {
   state.activeEmpId = id;
-  renderTabs();
   renderCards();
 }
 
@@ -902,7 +952,6 @@ function updateEmpField(id, field, value) {
     patchEmpFormDisplay(emp);
   }
   renderEmpList();
-  renderTabs();
   renderCards();
   renderSummary();
 }
@@ -944,29 +993,12 @@ function resetManualRate(empId) {
 function renderPeriodLabel() {
   const m = getMonth(), y = getYear();
   const { start, end, endMonth, endYear } = getPeriodDates(m, y);
-  document.getElementById('periodTitle').textContent =
-    `Lønperiode: 20. ${MONTH_NAMES[m]} – 19. ${MONTH_NAMES[endMonth]} ${endYear}`;
-  document.getElementById('periodSub').textContent =
-    `${fmtDate(start)} → ${fmtDate(end)} · Søndag er ikke arbejdsdag`;
+  const lbl = `${MONTH_NAMES[m].slice(0,3)}–${MONTH_NAMES[endMonth].slice(0,3)} ${endYear}`;
+  const topLbl = document.getElementById('topPeriodLbl');
+  if (topLbl) topLbl.textContent = lbl;
 }
 
-/* ══════════════════════════════════════════════════════
-   RENDER: TABS
-══════════════════════════════════════════════════════ */
-
-function renderTabs() {
-  const container = document.getElementById('empTabs');
-  container.innerHTML = '';
-  state.employees.forEach(emp => {
-    const div = document.createElement('div');
-    div.className = 'emp-tab' + (emp.id === state.activeEmpId ? ' active' : '');
-    div.onclick   = () => selectTab(emp.id);
-    div.innerHTML = `
-      <span class="tab-dot ${emp.type === 'chauffør' ? 'dot-c' : 'dot-m'}"></span>
-      ${emp.name}`;
-    container.appendChild(div);
-  });
-}
+// Tabs replaced by employee nav arrows
 
 /* ══════════════════════════════════════════════════════
    RENDER: TIMESEDDEL CARDS
@@ -979,10 +1011,38 @@ function renderCards() {
   const emp = getEmpById(state.activeEmpId);
   if (!emp) {
     container.innerHTML = '<div class="empty-state" style="padding:40px">Tilføj en medarbejder for at se timesedlen</div>';
+    renderEmpNav();
     return;
   }
 
   container.appendChild(buildCard(emp));
+  renderEmpNav();
+}
+
+function renderEmpNav() {
+  const nav = document.getElementById('empNavBar');
+  if (!nav) return;
+  if (state.employees.length === 0) { nav.innerHTML = ''; return; }
+
+  const idx = state.employees.findIndex(e => e.id === state.activeEmpId);
+  const emp = state.employees[idx];
+  const prev = state.employees[idx - 1];
+  const next = state.employees[idx + 1];
+
+  const dots = state.employees.map((e, i) =>
+    `<span class="emp-nav-dot${i === idx ? ' active' : ''}"></span>`
+  ).join('');
+
+  nav.innerHTML = `
+    <div class="emp-nav">
+      <button class="emp-nav-arr" onclick="selectTab(${prev?.id})" ${!prev ? 'disabled' : ''}>‹</button>
+      <div class="emp-nav-info">
+        <div class="emp-nav-name">${emp ? emp.name : '—'}</div>
+        <div class="emp-nav-sub">${emp ? (emp.type === 'chauffør' ? 'Chauffør' : 'Medhælper') : ''} · ${idx+1}/${state.employees.length}</div>
+        <div class="emp-nav-dots">${dots}</div>
+      </div>
+      <button class="emp-nav-arr" onclick="selectTab(${next?.id})" ${!next ? 'disabled' : ''}>›</button>
+    </div>`;
 }
 
 function buildCard(emp) {
@@ -1111,7 +1171,7 @@ function buildCard(emp) {
       </div>
     </div>
 
-    <table class="day-table">
+    <div class="day-table-wrap"><table class="day-table">
       <thead>
         <tr>
           <th>Dag</th><th>Dato</th>
@@ -1128,7 +1188,7 @@ function buildCard(emp) {
         </tr>
       </thead>
       <tbody>${tableHTML}</tbody>
-    </table>
+    </table></div>
 
     <div class="ts-footer">
       <div class="foot-stat">
@@ -1325,8 +1385,7 @@ function renderAll() {
   renderPeriodLabel();
   renderEmpList();
   renderEmpForm();
-  renderTabs();
-  renderCards();
+  renderCards();  // includes renderEmpNav
   renderSummary();
   renderRevPanel();
   saveState();
@@ -1339,6 +1398,7 @@ const STORAGE_KEY = 'timeseddel_ka_v1';
 
 function saveState() {
   try {
+    const activeScreen = document.querySelector('.nav-tab.active')?.id?.replace('nav-','') ?? 'medarbj';
     const payload = {
       employees:   state.employees,
       nextId:      state.nextId,
@@ -1349,6 +1409,7 @@ function saveState() {
       oe:          document.getElementById('oeInp')?.value  ?? '4.25',
       month:       document.getElementById('selMonth')?.value,
       year:        document.getElementById('selYear')?.value,
+      screen:      activeScreen,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch(e) { /* storage full or blocked – fail silently */ }
@@ -1372,6 +1433,10 @@ function loadState() {
     if (s.month != null) document.getElementById('selMonth').value = s.month;
     if (s.year  != null) document.getElementById('selYear').value  = s.year;
 
+    if (s.screen) {
+      // restore active screen after DOM is ready
+      setTimeout(() => switchScreen(s.screen), 0);
+    }
     return true;
   } catch(e) { return false; }
 }
@@ -1561,31 +1626,34 @@ function buildEntryFromHours(netHours, isSat) {
 ══════════════════════════════════════════════════════ */
 
 /* ══════════════════════════════════════════════════════
-   MOBILE SIDEBAR TOGGLE
+   SCREEN NAVIGATION
 ══════════════════════════════════════════════════════ */
-function toggleSidebar() {
-  const sb  = document.querySelector('.sidebar');
-  const btn = document.getElementById('sidebarToggleBtn');
-  const open = sb.classList.toggle('mob-open');
-  btn.textContent = open ? '✕ Luk' : '☰ Medarbj.';
+function switchScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const screen = document.getElementById('screen-' + name);
+  const tab    = document.getElementById('nav-' + name);
+  if (screen) screen.classList.add('active');
+  if (tab)    tab.classList.add('active');
+  // Scroll to top of new screen
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  saveState();
+}
+
+function openPeriodSheet() {
+  document.getElementById('periodSheet').classList.add('open');
+  document.getElementById('periodOverlay').classList.add('open');
+}
+function closePeriodSheet() {
+  document.getElementById('periodSheet').classList.remove('open');
+  document.getElementById('periodOverlay').classList.remove('open');
 }
 
 /* ══════════════════════════════════════════════════════
    PWA – Web App Manifest + Service Worker (inline blobs)
    Giver "Føj til hjemmeskærm" på iOS og Android
 ══════════════════════════════════════════════════════ */
-/* ══════════════════════════════════════════════════════
-   MOBILE SIDEBAR TOGGLE - also close when clicking outside
-══════════════════════════════════════════════════════ */
-document.addEventListener('click', function(e) {
-  const sb  = document.querySelector('.sidebar');
-  const btn = document.getElementById('sidebarToggleBtn');
-  if (!sb || !btn) return;
-  if (sb.classList.contains('mob-open') && !sb.contains(e.target) && e.target !== btn) {
-    sb.classList.remove('mob-open');
-    btn.textContent = '☰ Medarbj.';
-  }
-});
+// (sidebar replaced by bottom nav)
 
 /* ══════════════════════════════════════════════════════
    PWA – Service Worker (offline cache)
@@ -1769,9 +1837,27 @@ function exportExcel() {
   sumWs['!cols'] = [{wch:22},{wch:14},{wch:12},{wch:10},{wch:10},{wch:11},{wch:15},{wch:16}];
   XLSX.utils.book_append_sheet(wb, sumWs, 'Opsummering');
 
-  // ── Download ──────────────────────────────────────
+  // ── Download – iOS-safe ──────────────────────────
   const filename = `Timeseddel_${periodLabel.replace(/[^a-zA-Z0-9æøåÆØÅ._-]/g, '_')}.xlsx`;
-  XLSX.writeFile(wb, filename);
+
+  // Detect iOS Safari (blob download doesn't work; use data URL instead)
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS) {
+    // Write to base64 and open in new tab – user can then share/save via iOS share sheet
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+    const a = document.createElement('a');
+    a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + wbout;
+    a.download = filename;
+    a.click();
+    // Fallback if click doesn't work: open in new tab
+    setTimeout(() => {
+      if (!document.hidden) {
+        window.open('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + wbout);
+      }
+    }, 300);
+  } else {
+    XLSX.writeFile(wb, filename);
+  }
 }
 
 </script>
