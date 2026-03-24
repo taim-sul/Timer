@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Timeseddel – KA Transport</title>
+<meta name="description" content="Timeseddel og lønberegning for KA-overenskomst chauffører og medhælpere">
+<meta name="theme-color" content="#14140c">
+<!-- PWA / iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Timeseddel">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRpbWVzZWRkZWwg4oCTIEtBIFRyYW5zcG9ydCIsCiAgInNob3J0X25hbWUiOiAiVGltZXNlZGRlbCIsCiAgImRlc2NyaXB0aW9uIjogIktBLW92ZXJlbnNrb21zdCB0aW1lc2VkZGVsIG9nIGzDuG5iZXJlZ25pbmciLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMxNDE0MGMiLAogICJ0aGVtZV9jb2xvciI6ICIjYmY4YzA4IiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSIsCiAgImljb25zIjogWwogICAgeyAic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBTUFBQUFEQUNBWUFBQUJTM0d3SEFBQUR1RWxFUVZSNDJ1M2RRV3JiUUJpR1ljMlFUU0IwWlhLYlFpK1JrM1NUSTJTVGsrUVNnZHdtYUZVTTNRVFNUZW1pTksxTU5aSm12dWM1UUd0UC8xZS9oRTFkcHBXZFRqZnZFelF5eitleTVwOVhERHpKUVJTRFQzSUl4ZUNUSEVJMS9JemswaGt0QnAva2JWQU5QOG5ib0JwK2tpT29ocC9rQ0tyaEp6bUM2bWhJVmwzOVNkNEMxZkNUSElGYklOd0N1ZnFUdWdWc0FHd0FWMzlTdDRBTmdBMEFxYTYyK291ZTd0K0dQc2k3aDZ2ZC91NVJ6M2FMTXkydDcvOUhIL3c5UTBnNTI1Wm4yaXlBdE1IZjhoOHQ5V3hibkduMUQ5VFhrQ2FmYll2MzdpR1lhTFdIU2wyeG5HMnJNN0FCc0FGY29ZNS94WEsyYmM3Q0JzQUdBQUdBQUVBQUlBQVFBQWdBQkFBQ0FBR0FBRUFBSUFBUUFBZ0ErclBMZjJiejVldjN6ejBkMHZQajlZdFJzUUVpaDcvWDE0eGJJQkFBSENxQUh1K25QUU40Q0RaUTJBQWdBQkFBQ0FBRUFBSUFBVUIvZkJsdUFaOWIyQUN4dzkvcmE4WXQwRkQyL0JuV2tjOUNBTmdBN3FmN2VNMjJ3UHBuNE10dzJBQjRGa2g5NzNacXg0T1E4c041TGFNWGdCQ2l0NTBBRElwbkFCQUFDQUN5K0RMY0FqNjNzQUZpaDcvWDE0eGJJQkFBSE9vWjRQbngrc1V6d0xwdWJ6OE5PWnl2cjkvR2ZBajJVR253TDNsL0xVUHdFYUxCanc3Qk00RGhqMzd2QWlDYUFGejlvODlBQU5nQXVQcW5ub1VBaU9iTGNBdjQzTUl0VU96dzkvcWFjUXNFQW9CREJlQi9oaVArSWRoQTRSWUlCQUFDQUFHQUFFQUFJQURZaEMvRExlQnpDeHNnZHZoN2ZjMjRCUUlCd0tFQzhHVTQ0aCtDRFJSdWdVQUFJQUFRQUFnQUJBQUNBQUdBQUVBQUlBQVFRS290ZmpJMDhTd0VnQTJBTFpCNkJnTEFCc0FXU0gzdmZpbSs0MEZJK2VHOGx0RUxRQWpSMjA0QUJzVXpBQWdBQkFBQ0FBR0FBRUFBTUM2ZkF3ekFCMkVDTVBnRHZ6OWZoU0JxOExjTXdUT0E0WTkrN3dJZ21nQmMvYVBQUUFEWUFMajZwNTZGQUxBQlFBQWdBQkFBQ0FBRUFBSUFBWUFBUUFBZ0FCQUFDQUFFQUFJQUFZQUFRQUFnQUJBQUNBQUVBQUlBQVlBQVFBQWdBQkFBQ0FBRUFBS0F6Z0s0ZS9Dams2M09aSXZmek8zRm1tZGhBMkFEMkFMSHZ2cmJBdTNPd0FiQUJyQUYram1ENUMzUTRyMlhhWnFtMCtubXZkV0xmcnAvTS9pTnBQeHlaS3ZvNS9sY21nZVFFc0tlVzIvVUVGcHZ1MDBEZ0tPWjUzUHhFSXlINEhrK0YwZEIydFgvVndBUXZRRnNBUkt2L2pZQU5zQkhaY0RvVi84L2JnQVJrREw4Ym9Gd0M3UzBGQmp0NnYvWERTQUNSaC8rZjk0Q2lZQ1JoMy9STTRBSUdIWDRwK25uMTZHWDhxVTVSaG44eFJ2QU5tRFU0Yjk0QTlnR2pETDQveDJBRU9oNThGY0xRQkQwTlBDLyt3Rm5nMVJWejFRVG9RQUFBQUJKUlU1RXJrSmdnZz09IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiIH0sCiAgICB7ICJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FZQUFBRDBlTlQ2QUFBTGhrbEVRVlI0MnUzZFRXb2lXeHlINGFyQ2lSQXlFbmNqdUltc0pKTXNJUk5Ya2swSTdrWWNCY0ZKSUhmU2NKdSt1WTJmVmVlYzMvTXNvRHVXeC9OLzYyaE0zd1ZZTEo2K093QTQwK0Z3N0Z0L2pFMDlRSU1lQUdFUUVBQUdQZ0NDSUNRQURIMEF4RUJJQUJqNkFJaUJvQUF3K0FFUUFpRUJZT2dESUFhQ0FzRGdCMEFJakdjdy9BRWdiK2IxTGdJQTVKMEdUUElmRy93QU1HMElqUDRXZ09FUEFOUFB4cUgxQndnQUl1Qy8raFlmRkFEVWJJeTNCQjUrQW1ENEEwQjVzM09vL1FFQWdBZ29LQUFNZndBb2Q1WU90ZjNBQUNBQ2J0Zlg4RU1DQVBmOWNPRGRUZ0FNZndDbzV6UmdjRGtCSU05ZEFzRGRQd0RVZFFvd2xQS0RBQURqemQ1aDZoOEFBQmgvQmc5VC9jY0F3SFFSTUl6OUh3SUEwMGVBM3dJQWdFQVhCNEM3ZndDby94UmdlUFIvQUFDVUZ3SERvLzVoQUtEY0NQQVpBQUFJZEZZQXVQc0hnTFpPQVp3QUFJQVRBSGYvQUpCd0NqQVkvZ0NRRndIZUFnQ0FRSU83ZndESU93VndBZ0FBVGdBQWdOZ0FjUHdQQUczNHY1bnVCQUFBbkFDNCt3ZUFoRk1BSndBQTRBUUFBSWdMQU1mL0FOQ21QMmU4RXdBQVNEOEJBQURDQXNEeFB3QzA3ZmRaN3dRQUFKSlBBQUFBQVFBQU5LenZPdS8vLzgzSDI1ZUx3RlZlM21jdWd0Y3BYb2RGT2h5T3ZRQ3drV0FqOGpyRjYxQUEyRkRBQnVSMWl0ZWhBTENoZ0EzSTZ4U3ZRd0ZnUXdFYmtOY3BYb2R0QkVEa2J3SFlWTEFlWFJkSVgyOTkydDIvVFFWM0lGNm40SFVZOWowQU5oV3NUOWNCckwrd0FMQ3BZSjE2L0dBZGhnV0FUUVhyMWVNRzZ6RXNBR3dxV0xjZUwxaVhZUUZnVThINjlUakIrZ3c5QVFBQWdnTEFYUVhXc2NjSDFxa1RBQUNnOVFCd1Y0SDE3SEdCOWVvRUFBQm9QUURjVmVEdXcrTUI2OVlKQUFBZ0FBQUFBUUFBQXFCKzNsZWtaYTJzYjY5VHJGOEJBQUFJQUFCQUFBQUFBZ0FBRUFBQWdBQUFBQVFBQUNBQUFBQUJBQUFDd0NVQUFBRUFBQWdBQUVBQUFBQUNBQUFRQUFDQUFBQUFCQUFBSUFBQUFBRUFBQWdBQUVBQUFBQUNBQUFRQUFDQUFBQUFCQUFBSUFBQUFBRUFBQUlBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQVFBQUFBQUlBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQTRDY3psK0J5NjlmVHlsVm8wM1l6MzdrS2dCTUFESC9QTDRBQUFBQUVBQUFnQUFBQUFRQUFDQUFBUUFBQUFBSUFBQkFBQUlBQUFBQUVBQUFnQU1ibHUrSTl2d0F0OE1lQURBa0FuQUFBQUFJQUFCQUFBSUFBQUFBRUFBQWdBQUFBQVFBQUNBQUFRQUFBQUFJQUFCQUFBSUFBQUFBRUFBQWdBQUFBQVFBQUNBQUFRQUFBZ0FBQUFBUUFBQ0FBQUFBQkFBQUlBQUNnSWpPWDRITHIxOVBLVldqVGRqUGZ1UXFQOWZJKzZ6N2V2bHdJcWwyL1RnQU1menkvQUFJQUFCQUFBSUFBQVBoWFMrK2pZdDBLQUFCQUFBQTRCY0I2RlFBQWdBQUFjQXFBZFNvQUFBQUJBTGk3QXV0VEFBQTJXYkF1QmNDMGZGZTg1eGViTGRaakM3emlEQWtvYXRQMWg0SXcvSjBBQURaZnNQNEVBR0FUQnV0T0FBQTJZN0RlcnVZVkJoUy9LZnRjQUFhL0FBQ0VBQmo4QWdBUUFtRHdDd0FnY2hNWEJCajRBZ0N3eVFObjhGc0FBQ0FBQUFBQkFBQUlBQUJBQUFBQUFnQUFFQUFBZ0FBQUFBUUFBQ0FBQUFBQkFBQUlBQUJBQUFBQUFnQUF1SlMvb1htRjlldHA1U3EwYWJ1Wjcxd0Z3QWtBaHIvbkYwQUFBQUFDQUFBUUFBQ0FBQUFBQkFBQUlBQUFBQUVBQUl6SkZ3RUIxVnN1bjEwRWZyVGZmN29JQWdBdzhFbGZLNEpBQUFBR1A4RnJTQWo0RE1ERmZGZTg1NWRwTm0zREgydktDWUFoQWU3NHdZbUFFd0RBOEFmclRRQUFObU93N2dRQVlCTUc2MDhBQURaZnNBNEZBR0RUaGN6MUtBQUFteTBFcmtzQkFOaGtJWEI5Q2dBQUNDUUFBSGRYRUxoT0JRQUFPQUVBY0ZjRkNldFZBQUNBRXdBQWQxT1FzRzRGQUFBNEFRQUFCQUFBSUFBQWJ1WDlmNnhmQVFBQUNBQUFRQUFBQUFJQUFCQUFBTUFOWmk3QjVkYXZwNVdyMEtidFpyNXpGUUFuQUJqK25sOEFBUUFBQ0FBQVFBQUFBQUlBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQVFBQ015M2ZGZTM0Qld1Q1BBUmtTQURnQkFBQUVBQUFnQUFBQUFRQUFDQUFBUUFBQUFBSUFBQkFBQUlBQUFBQUVBQUFnQUFBQUFRQUFDQUFBUUFBQUFBSUFBQkFBQUlBQUFBQUJBQUFJQUFCQUFBQUFBZ0FBRUFBQVFFVm1Mc0hsMXErbmxhdlFwdTFtdm5NVkFDY0FHUDZlWHdBQkFBQUlBQUJBQUFBQUFnQUFFQUFBZ0FBQUFBUUFBQ0FBQUFBQkFBQUlBQUJBQUl6TGQ4VjdmZ0ZhNEk4QkdSSUFPQUVBQUFRQUFDQUFBQUFCQUFBSUFBQkFBQUFBQWdBQUVBQUFnQUFBQUFRQUFDQUFBQUFCQUFBSUFBQkFBQUFBQWdBQUVBQUFnQUFBQUFFQUFBZ0FBRUFBQUFBQ0FBQVFBQUNBQUFBQUJBREFML3Y5cDR1QTlTc0FBQUFCQUFBSUFBQkFBQUNOOERrQXJGc0JBQUFJQU1EZEZGaXZBZ0FBRUFDQXV5cXdUZ1VBQUNBQUFIZFhZSDBLQU1BbUM5YWxBQUJzdG1BOUNnREFwZ3ZSNjFBQUFEWmZDRngvQWdDd0NVUGd1aE1BZ00wWTZ5MXd2YzA4N1VEcG0vSnkrZXhpWVBBTEFFQUlnTUV2QUFBaEFBYS9BQUR5Tm5GQmdJRXZBQUNiUEhBR3Z3VUFBQUlBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQVFBQUFBQUlBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQVFBQUFBQUlBQUFRQUFDQUFBQUFCQUFBSUFBQkFBQUFBRlptNUJFRHRsc3RuRjRFZjdmZWZMb0lBQUF4ODB0ZUtJQkFBZ01GUDhCb1NBZ0lBTVBnUkFnSUF3T0JIQ0dUd1d3Q0E0WS8xRnJqZUJBQmdNNGJBZFNjQUFKc3dCSzQvQVFEWWZDRndIUW9Bd0tZTGdldFJBQUEyV3doY2x3SUFzTWxDNFBvVUFBQVFTQUFBN3E0Z2NKMEtBQUJ3QWdEZ3Jnb1MxcXNBQUFBbkFBRHVwaUJoM1FvQUFIQUNBQUFJQUFCQUFBRGN5dnYvV0w4Q0FBQVFBQUNBQUFBQUJBQUFJQUFBQUFFQUFBZ0FBRUFBQUFBQ0FBQUVnRXNBQUFJQUFCQUFBSUFBQUFBRUFBQWdBQUFBQVFBQUNBQUFRQUFBQUFJQUFCQUFBSUFBQUFBRUFBQWdBQUFBQVFBQUNBQUFRQUFBQUFJQUFBUUFBQ0FBQUFBQkFBQUlBQUJBQUFBQUFnQUFFQUFBZ0FBQUFBUUFBQ0FBQUFBQkFBQUlBQUJBQUFBQUFnQUFFQUFBZ0FBQUFBUUFBQWdBQUVBQUFBQUNBQUFRQUFDQUFBQUFCQUFBSUFBQUFBRUFBQWdBQUVBQUFBQUNBQUFRQUFDQUFBQUFCQUFBSUFBQUFBRUFBQWdBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQVFBQUFBQUlBQUJBQUFJQUFBQUFFQUFBZ0FBQUFBUUFBQ0FBQVFBQUFBQUlBQUJBQUFDQUFtdkh5UHZPTTBxeFcxdmQrLytuSnhQb1ZBQUNBQUFBQUJBQUFJQURPNG5NQXRLaTFkZTF6QUZpM0FnQUFFQUR1bGlCbFBUc0Z3SG9WQUFDQUFIRFhCQ25yMkNrQTFxa0FBQUFFZ0xzblNGbS9UZ0d3UGdXQVRSUkMxNjBJd0xvVUFEWlREUC9ROVNvQ3NCNEZnRTBWdzkrbUM5Ymhvd1BnY0RqMk5sZXdQbTIra0xQK0RvZGpIL2RiQURaWnJFdWJNRmgzb2I4R2FMUEZlclFaUS9wNjY3dXU2eGFMcCsvVUovM2o3Y3ZLeCtBdjNITDU3Q0pnOE4vUjRYRHM0d05BQ0dEd0N3RU1mZ0dBRU1EZ0Z3SVkvRGtCSUFJRUFRYStJTURBenhuK1hmZnJNd0FDQUFDeUFzQWZBd0tBUUFJQUFKSURJT2tiQVFFZzBlK3ozZ2tBQUNTZkFBQUFvUUhnYlFBQWFOT2ZNOTRKQUFDa253QUFBS0VCNEcwQUFHakxUN1BkQ1FBQU9BRndDZ0FBcmQvOU93RUFBQ2NBQUVCOEFIZ2JBQURxOXJkWjdnUUFBSndBT0FVQWdOYnYvczg2QVJBQkFORFc4RDhyQUFDQTlwd1ZBRTRCQUtDZHUzOG5BQURnQk1BcEFBQWszUDFmZkFJZ0FnQ2cvdUYvY1FDSUFBQ29mL2hmRlFBQVFQMnVDZ0NuQUFCUTc5My9UU2NBSWdBQTZoeitOd1dBQ0FDQU9vZi96UUVnQWdDZ3Z1Ri9sd0FRQVFCUTEvQy9Xd0FBQUhXNVd3QTRCUUNBT3U3K3U2N3JIakswRjR1bmIwOFRBSlI3a3ozVThvTUNnT0ZmZUFDSUFBQW9lNVlPdGY3Z0FHRDRGeG9BSWdBQXlweWRvdzVuSHc0RWdESnVtb2RXSHhnQUdQNkZCSUFJQUlBeVp1T2t3OWhiQWdBWS9OTW80bTVjQ0FCZzhJOXJjQ0VBSUcvbUZUZDRuUVlBWVBBSEJvQVlBTURRRHc4QUlRQ0F3UjhjQUdJQUFFTS9QQURFQUFDR2ZuZ0FDQUlBREh3QklBd0FNT2pQOUEvYk1oMFI3UGZYaXdBQUFBQkpSVTVFcmtKZ2dnPT0iLCAic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIgfQogIF0KfQ==">
+<!-- Apple splash / icon via inline SVG injected by JS -->
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAADuElEQVR42u3dQWrbQBiGYc2QTSB0ZXKbQi+Rk3STI2STk+QSgdwmaFUM3QTSTemiNK1MNZJmvuc5QGtP/1e/hE1dppWdTjfvEzQyz+ey5p9XDDzJQRSDT3IIxeCTHEI1/Izk0hktBp/kbVANP8nboBp+kiOohp/kCKrhJzmC6mhIVl39Sd4C1fCTHIFbINwCufqTugVsAGwAV39St4ANgA0Aqa62+oue7t+GPsi7h6vd/u5Rz3aLMy2t7/9HH/w9Q0g525Zn2iyAtMHf8h8t9WxbnGn1D9TXkCafbYv37iGYaLWHSl2xnG2rM7ABsAFcoY5/xXK2bc7CBsAGAAGAAEAAIAAQAAgABAACAAGAAEAAIAAQAAgA+rPLf2bz5ev3zz0d0vPj9YtRsQEih7/X14xbIBAAHCqAHu+nPQN4CDZQ2AAgABAACAAEAAIAAUB/fBluAZ9b2ACxw9/ra8Yt0FD2/BnWkc9CANgA7qf7eM22wPpn4Mtw2AB4Fkh973Zqx4OQ8sN5LaMXgBCit50ADIpnABAACACy+DLcAj63sAFih7/X14xbIBAAHOoZ4Pnx+sUzwLpubz8NOZyvr9/GfAj2UGnwL3l/LUPwEaLBjw7BM4Dhj37vAiCaAFz9o89AANgAuPqnnoUAiObLcAv43MItUOzw9/qacQsEAoBDBeB/hiP+IdhA4RYIBAACAAGAAEAAIADYhC/DLeBzCxsgdvh7fc24BQIBwKEC8GU44h+CDRRugUAAIAAQAAgABAACAAGAAEAAIAAQQKotfjI08SwEgA2ALZB6BgLABsAWSH3vfim+40FI+eG8ltELQAjR204ABsUzAAgABAACAAGAAEAAMC6fAwzAB2ECMPgDvz9fhSBq8LcMwTOA4Y9+7wIgmgBc/aPPQADYALj6p56FALABQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAKAzgK4e/Cjk63OZIvfzO3FmmdhA2AD2ALHvvrbAu3OwAbABrAF+jmD5C3Q4r2XaZqm0+nmvdWLfrp/M/iNpPxyZKvo5/lcmgeQEsKeW2/UEFpvu00DgKOZ53PxEIyH4Hk+F0dB2tX/VwAQvQFsARKv/jYANsBHZcDoV/8/bgARkDL8boFwC7S0FBjt6v/XDSACRh/+f94CiYCRh3/RM4AIGHX4p+nn16GX8qU5Rhn8xRvANmDU4b94A9gGjDL4/x2AEOh58FcLQBD0NPC/+wFng1RVz1QToQAAAABJRU5ErkJggg==">
+<link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAADuElEQVR42u3dQWrbQBiGYc2QTSB0ZXKbQi+Rk3STI2STk+QSgdwmaFUM3QTSTemiNK1MNZJmvuc5QGtP/1e/hE1dppWdTjfvEzQyz+ey5p9XDDzJQRSDT3IIxeCTHEI1/Izk0hktBp/kbVANP8nboBp+kiOohp/kCKrhJzmC6mhIVl39Sd4C1fCTHIFbINwCufqTugVsAGwAV39St4ANgA0Aqa62+oue7t+GPsi7h6vd/u5Rz3aLMy2t7/9HH/w9Q0g525Zn2iyAtMHf8h8t9WxbnGn1D9TXkCafbYv37iGYaLWHSl2xnG2rM7ABsAFcoY5/xXK2bc7CBsAGAAGAAEAAIAAQAAgABAACAAGAAEAAIAAQAAgA+rPLf2bz5ev3zz0d0vPj9YtRsQEih7/X14xbIBAAHCqAHu+nPQN4CDZQ2AAgABAACAAEAAIAAUB/fBluAZ9b2ACxw9/ra8Yt0FD2/BnWkc9CANgA7qf7eM22wPpn4Mtw2AB4Fkh973Zqx4OQ8sN5LaMXgBCit50ADIpnABAACACy+DLcAj63sAFih7/X14xbIBAAHOoZ4Pnx+sUzwLpubz8NOZyvr9/GfAj2UGnwL3l/LUPwEaLBjw7BM4Dhj37vAiCaAFz9o89AANgAuPqnnoUAiObLcAv43MItUOzw9/qacQsEAoBDBeB/hiP+IdhA4RYIBAACAAGAAEAAIADYhC/DLeBzCxsgdvh7fc24BQIBwKEC8GU44h+CDRRugUAAIAAQAAgABAACAAGAAEAAIAAQQKotfjI08SwEgA2ALZB6BgLABsAWSH3vfim+40FI+eG8ltELQAjR204ABsUzAAgABAACAAGAAEAAMC6fAwzAB2ECMPgDvz9fhSBq8LcMwTOA4Y9+7wIgmgBc/aPPQADYALj6p56FALABQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAKAzgK4e/Cjk63OZIvfzO3FmmdhA2AD2ALHvvrbAu3OwAbABrAF+jmD5C3Q4r2XaZqm0+nmvdWLfrp/M/iNpPxyZKvo5/lcmgeQEsKeW2/UEFpvu00DgKOZ53PxEIyH4Hk+F0dB2tX/VwAQvQFsARKv/jYANsBHZcDoV/8/bgARkDL8boFwC7S0FBjt6v/XDSACRh/+f94CiYCRh3/RM4AIGHX4p+nn16GX8qU5Rhn8xRvANmDU4b94A9gGjDL4/x2AEOh58FcLQBD0NPC/+wFng1RVz1QToQAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAADhElEQVR42u3dQUocQRiG4e7GTUCyGryNkEt4kmw8gpucxEsEvI30KgxkI5hNCBInOoaq7qqvnucAyVT7+vv3ZGLPUyGHw+XzBP9pXY9ziT9nFjFJcc8iJinuRcy07KPNzUImaVovYiZpWi9iJinqRcwkRb2ImaSoFzGTFPXispBkMZ1JmtKLmEmK2spB7soBEUFbN0hZO0xorBzQqnmLdeP+9inmgt3cXez2dydcx9rXr2rQSSHvGXbidax1/aoEnRzylmGPcB1LX7/FF6HN845yHUuf000hUZaWv9tGnTJ+ypnQUDboUadz6fP7KWdCg6ARNAgaBA2CBkEjaBA0CBoEjaBB0CBoqGvz/8L85evP69Yvyvdvnx6kYUJHxNzT68TKgaBB0F3vpnZoN4ViwcoBggZBI2gQNAgaivFZjhO8tWhCx8Tc0+vEytG8PZ/hknBuQWNCp++me7/O0aZ0yfP6LAcmNKZ0q+e8kE77X2zPKRS0sAf9ySNoMdihQdCwAZ/lOMFbiyZ0TMw9vU6sHAgaBN31bmqHdlMolg1cXX3u/gyPjz+ygmbMkP8+S62wBS3kqLDdFIo56pyCJoqgTeeo8wqaKD7LccKeby2ONp1fnrvEDaLPcnT8OrFyIGgQdHO7aeLrpIGbQrFg5QBBI2gQNAgaBA3v8VmOE7y1aELHxNzT68TKgaBB0F3vpnZoN4ViwcoBggZBI2gQNAgaBA2CRtAgaBA0CDpO7WeQpJ9b0JjQmNKtnlfQmNCY0q2e02PdOvhiJ/5Wf88pFLYnyQraVLNDg6BB0CBoEDSCBkHDzrwP3RH/sCJoITd6Fv/0LeTIs5UO2w4t5qhzCpoogjado84raExoTOdWzy1oTGgQNAgaBI2gQdAgaBA0CBpBg6BB0CBoEDSCBkGDoEHQIGgEDYIGQYOgQdAIGgQNgoZmgr65G/thAKXOP+rzvEud24TGhDal6557tCld8rwmNCa0KV3/vKNM6dLnnA+Hy+daL/b+9knIBST+Vv9a37DzNE1TzajTwt7zJ5Anyb5tXY/zJkHDFtb1OLspJO+mcF2Ps0tB79P5T9AQNaEhLmhrB72vG68mtKjpOWYrB/k7tClNr9P5nxNa1PQY85srh6jpLeZ3d2hR01PMZ90UippeYp6m35+2O5cPMdFqyGdPaNOaXmL+8IQ2sWkx4mJBi5sWIn7pF2rTS4FCDq7OAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAADuElEQVR42u3dQWrbQBiGYc2QTSB0ZXKbQi+Rk3STI2STk+QSgdwmaFUM3QTSTemiNK1MNZJmvuc5QGtP/1e/hE1dppWdTjfvEzQyz+ey5p9XDDzJQRSDT3IIxeCTHEI1/Izk0hktBp/kbVANP8nboBp+kiOohp/kCKrhJzmC6mhIVl39Sd4C1fCTHIFbINwCufqTugVsAGwAV39St4ANgA0Aqa62+oue7t+GPsi7h6vd/u5Rz3aLMy2t7/9HH/w9Q0g525Zn2iyAtMHf8h8t9WxbnGn1D9TXkCafbYv37iGYaLWHSl2xnG2rM7ABsAFcoY5/xXK2bc7CBsAGAAGAAEAAIAAQAAgABAACAAGAAEAAIAAQAAgA+rPLf2bz5ev3zz0d0vPj9YtRsQEih7/X14xbIBAAHCqAHu+nPQN4CDZQ2AAgABAACAAEAAIAAUB/fBluAZ9b2ACxw9/ra8Yt0FD2/BnWkc9CANgA7qf7eM22wPpn4Mtw2AB4Fkh973Zqx4OQ8sN5LaMXgBCit50ADIpnABAACACy+DLcAj63sAFih7/X14xbIBAAHOoZ4Pnx+sUzwLpubz8NOZyvr9/GfAj2UGnwL3l/LUPwEaLBjw7BM4Dhj37vAiCaAFz9o89AANgAuPqnnoUAiObLcAv43MItUOzw9/qacQsEAoBDBeB/hiP+IdhA4RYIBAACAAGAAEAAIADYhC/DLeBzCxsgdvh7fc24BQIBwKEC8GU44h+CDRRugUAAIAAQAAgABAACAAGAAEAAIAAQQKotfjI08SwEgA2ALZB6BgLABsAWSH3vfim+40FI+eG8ltELQAjR204ABsUzAAgABAACAAGAAEAAMC6fAwzAB2ECMPgDvz9fhSBq8LcMwTOA4Y9+7wIgmgBc/aPPQADYALj6p56FALABQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAIAAYAAQAAgABAACAAEAAKAzgK4e/Cjk63OZIvfzO3FmmdhA2AD2ALHvvrbAu3OwAbABrAF+jmD5C3Q4r2XaZqm0+nmvdWLfrp/M/iNpPxyZKvo5/lcmgeQEsKeW2/UEFpvu00DgKOZ53PxEIyH4Hk+F0dB2tX/VwAQvQFsARKv/jYANsBHZcDoV/8/bgARkDL8boFwC7S0FBjt6v/XDSACRh/+f94CiYCRh3/RM4AIGHX4p+nn16GX8qU5Rhn8xRvANmDU4b94A9gGjDL4/x2AEOh58FcLQBD0NPC/+wFng1RVz1QToQAAAABJRU5ErkJggg==">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ──────────────────────────────────────────── */
+:root {
+  --bg:        #f1ede4;
+  --paper:     #fefdf8;
+  --ink:       #14140c;
+  --muted:     #888078;
+  --rule:      #d8d3c4;
+  --rule-lt:   #eae6da;
+  --gold:      #bf8c08;
+  --gold-bg:   #fdf2c8;
+  --gold-dk:   #7a5800;
+  --green:     #1d5e33;
+  --green-bg:  #cce8d4;
+  --red:       #7e1e1e;
+  --red-bg:    #f5d8d8;
+  --blue:      #163060;
+  --blue-bg:   #d5e3f5;
+  --orange:    #8f3e06;
+  --orange-bg: #fde0bc;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; line-height: 1.5;
+  color: var(--ink); background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ── HEADER ──────────────────────────────────────────── */
+.hdr {
+  background: var(--ink); position: sticky; top: 0; z-index: 400;
+  box-shadow: 0 2px 14px rgba(0,0,0,.45);
+}
+.hdr-inner {
+  max-width: 1340px; margin: 0 auto;
+  display: flex; align-items: stretch;
+}
+.hdr-brand {
+  background: var(--gold); color: var(--ink);
+  padding: 10px 20px; min-width: 175px; flex-shrink: 0;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.hdr-brand-t { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: .05em; line-height: 1; }
+.hdr-brand-s { font-size: .5rem; letter-spacing: .16em; text-transform: uppercase; opacity: .7; margin-top: 3px; }
+.hdr-ctrls {
+  flex: 1; display: flex; align-items: center;
+  padding: 8px 18px; gap: 12px; flex-wrap: wrap;
+}
+.hdr-field { display: flex; flex-direction: column; gap: 3px; }
+.hdr-lbl { font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; color: #999; }
+.hdr-sel, .hdr-inp {
+  background: #22221a; border: 1px solid #454538;
+  color: #f1ede4; padding: 5px 9px;
+  font-family: 'IBM Plex Mono', monospace; font-size: .78rem;
+  border-radius: 3px; outline: none; transition: border-color .15s;
+}
+.hdr-sel:focus, .hdr-inp:focus { border-color: var(--gold); }
+.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 8px; padding-right: 4px; }
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: .88rem; letter-spacing: .07em; text-transform: uppercase;
+  border: none; border-radius: 3px; cursor: pointer;
+  padding: 7px 16px; transition: all .15s; white-space: nowrap;
+}
+.btn-gold   { background: var(--gold); color: var(--ink); }
+.btn-gold:hover { background: #d69e0a; transform: translateY(-1px); }
+.btn-ghost  { background: #2e2e24; color: #ccc; border: 1px solid #555; }
+.btn-ghost:hover { background: #3a3a2e; color: #eee; }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid var(--red-bg); }
+.btn-danger:hover { background: var(--red-bg); }
+.btn-sm  { padding: 4px 12px; font-size: .78rem; }
+.btn-xs  { padding: 3px 8px;  font-size: .7rem; }
+.btn-icon { padding: 4px 7px; font-size: .82rem; }
+
+/* ── LAYOUT ──────────────────────────────────────────── */
+.layout {
+  max-width: 1340px; margin: 0 auto; padding: 22px 18px;
+  display: grid; grid-template-columns: 300px 1fr; gap: 20px; align-items: start;
+}
+
+/* ── CARD ────────────────────────────────────────────── */
+.card {
+  background: var(--paper); border: 1.5px solid var(--rule);
+  border-radius: 5px; box-shadow: 2px 3px 0 var(--rule); overflow: hidden;
+}
+.card + .card { margin-top: 16px; }
+.card-head {
+  padding: 9px 15px; background: var(--ink); color: var(--gold);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-head .ch-sub { color: #777; font-size: .65rem; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.card-body { padding: 14px 15px; }
+
+/* ── SIDEBAR ─────────────────────────────────────────── */
+.sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+.oe-box {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 14px; background: var(--gold-bg);
+  border: 1.5px solid var(--gold); border-radius: 4px;
+}
+.oe-box label { font-size: .55rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gold-dk); font-weight: 600; white-space: nowrap; }
+.oe-inp {
+  width: 78px; background: white; border: 1px solid var(--gold);
+  padding: 5px 8px; font-family: 'IBM Plex Mono', monospace;
+  font-size: .82rem; border-radius: 2px; outline: none; color: var(--ink);
+}
+.oe-inp:focus { border-color: var(--ink); }
+.oe-hint { font-size: .62rem; color: var(--gold-dk); }
+
+/* Employee list */
+.emp-list { list-style: none; }
+.emp-li {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-bottom: 1px solid var(--rule-lt);
+  cursor: pointer; transition: background .1s;
+}
+.emp-li:last-child { border-bottom: none; }
+.emp-li:hover { background: #f6f2ea; }
+.emp-li.sel { background: var(--gold-bg); border-left: 3px solid var(--gold); }
+.emp-li.sel .eli-name { color: var(--gold-dk); }
+.eli-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-c { background: var(--gold); }
+.dot-m { background: var(--green); }
+.eli-name { font-weight: 500; font-size: .8rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.eli-type { font-size: .6rem; color: var(--muted); white-space: nowrap; }
+.eli-rate { font-size: .68rem; color: var(--green); font-weight: 500; margin-left: auto; white-space: nowrap; }
+.eli-del  { background: none; border: none; color: var(--rule); cursor: pointer; font-size: .88rem; padding: 1px 4px; transition: color .15s; }
+.eli-del:hover { color: var(--red); }
+
+/* Emp form */
+.form-grid { display: flex; flex-direction: column; gap: 9px; }
+.fg-row   { display: flex; flex-direction: column; gap: 3px; }
+.fg-lbl   { font-size: .55rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 500; }
+.fg-inp, .fg-sel {
+  background: #f5f1e8; border: 1px solid var(--rule);
+  color: var(--ink); padding: 6px 9px;
+  font-family: 'IBM Plex Mono', monospace; font-size: .8rem;
+  border-radius: 3px; outline: none; width: 100%;
+  transition: border-color .15s;
+}
+.fg-inp:focus, .fg-sel:focus { border-color: var(--gold); background: white; }
+.fg-computed {
+  padding: 5px 9px; border-radius: 3px; font-size: .75rem; font-weight: 500;
+  background: var(--green-bg); color: var(--green);
+}
+.fg-computed.warn { background: var(--red-bg); color: var(--red); }
+.fg-hint { font-size: .56rem; color: var(--muted); }
+
+/* ── TIMESEDDEL AREA ─────────────────────────────────── */
+.ts-area { display: flex; flex-direction: column; gap: 18px; }
+
+.period-bar {
+  display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.period-title  { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: .02em; }
+.period-sub    { font-size: .63rem; color: var(--muted); margin-top: 2px; }
+.period-btns   { display: flex; gap: 6px; }
+
+/* Employee tabs */
+.emp-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--rule); flex-wrap: wrap; }
+.emp-tab  {
+  padding: 7px 16px; cursor: pointer;
+  font-size: .72rem; font-weight: 500;
+  border: 1.5px solid transparent; border-bottom: none;
+  border-radius: 4px 4px 0 0; margin-bottom: -2px;
+  display: flex; align-items: center; gap: 7px;
+  transition: background .1s;
+}
+.emp-tab:hover { background: var(--gold-bg); }
+.emp-tab.active {
+  background: var(--paper); border-color: var(--rule);
+  border-bottom-color: var(--paper);
+}
+.tab-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+/* Timeseddel card */
+.ts-card {
+  background: var(--paper); border: 1.5px solid var(--rule);
+  border-radius: 0 5px 5px 5px; box-shadow: 2px 3px 0 var(--rule); overflow: hidden;
+}
+.ts-card-head {
+  background: var(--ink); color: #f1ede4;
+  padding: 11px 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.tch-name  { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: .03em; }
+.tch-badge {
+  font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px;
+}
+.badge-c { background: var(--gold); color: var(--ink); }
+.badge-m { background: var(--green); color: white; }
+.tch-period { font-size: .6rem; color: #999; }
+
+/* Rate editor in card head */
+.rate-editor { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.rate-lbl    { font-size: .55rem; color: #888; text-align: right; line-height: 1.4; }
+.rate-inp    {
+  width: 88px; background: #2a2a1e; border: 1px solid #666;
+  color: var(--gold); padding: 4px 8px; text-align: right;
+  font-family: 'IBM Plex Mono', monospace; font-size: .88rem; font-weight: 600;
+  border-radius: 3px; outline: none; transition: border-color .15s;
+}
+.rate-inp:focus { border-color: var(--gold); background: #1c1c12; }
+.rate-unit { font-size: .7rem; color: #aaa; }
+.btn-save-rate {
+  background: var(--gold); color: var(--ink); border: none;
+  padding: 4px 10px; font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: .74rem; letter-spacing: .05em;
+  border-radius: 3px; cursor: pointer; transition: opacity .15s;
+}
+.btn-save-rate:hover { opacity: .85; }
+.btn-reset-rate {
+  background: #383828; color: #bbb; border: none;
+  padding: 4px 8px; font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem; border-radius: 3px; cursor: pointer; transition: opacity .15s;
+}
+.btn-reset-rate:hover { opacity: .85; }
+
+/* Day table */
+.day-table { width: 100%; border-collapse: collapse; font-size: .75rem; }
+.day-table thead th {
+  padding: 7px 10px; background: #f6f3ea; border-bottom: 1.5px solid var(--rule);
+  text-align: left; font-size: .54rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; white-space: nowrap;
+}
+.day-table thead th.tc { text-align: center; }
+.day-table thead th.tr { text-align: right; }
+.day-table thead th.th-ot1 { color: var(--orange); }
+.day-table thead th.th-ot2 { color: var(--red); }
+
+.day-table tbody td {
+  padding: 5px 10px; border-bottom: 1px solid var(--rule-lt);
+  vertical-align: middle;
+}
+.day-table tbody tr:last-child td { border-bottom: none; }
+.day-table tbody tr.tr-sat td { background: #fdf9ed; }
+.day-table tbody tr.tr-off td { background: #f7f5ef; }
+.day-table tbody tr.tr-off:hover td { background: #f3f0e8; }
+.day-table tbody tr:not(.tr-off):not(.tr-sep):not(.tr-rate-change):hover td { background: #fdfbe8; }
+
+/* Week separator */
+.tr-sep td {
+  padding: 4px 10px !important; background: #edeae0 !important;
+  font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--rule) !important;
+}
+/* Rate change banner */
+.tr-rate-change td {
+  padding: 5px 10px !important; background: var(--gold-bg) !important;
+  font-size: .65rem; color: var(--orange); font-weight: 500;
+  border-bottom: 1px solid var(--gold) !important;
+}
+
+/* Time input cells */
+.td-day  { font-weight: 600; white-space: nowrap; min-width: 58px; }
+.td-date { color: var(--muted); font-size: .68rem; white-space: nowrap; }
+.td-off  { color: var(--muted); font-style: italic; font-size: .7rem; }
+
+.t-inp {
+  width: 64px; background: white; border: 1px solid var(--rule);
+  padding: 4px 6px; text-align: center;
+  font-family: 'IBM Plex Mono', monospace; font-size: .78rem;
+  border-radius: 3px; outline: none; transition: border-color .15s;
+  font-variant-numeric: tabular-nums;
+}
+.t-inp:focus { border-color: var(--gold); background: #fffef2; }
+.t-inp.invalid { border-color: var(--red) !important; background: var(--red-bg) !important; }
+.t-inp:disabled { background: #f0ede4; color: var(--muted); cursor: not-allowed; border-color: var(--rule-lt); }
+
+.td-pause { color: var(--muted); font-size: .68rem; text-align: center; }
+.td-hours { color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
+.td-ot1   { color: var(--orange); font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
+.td-ot2   { color: var(--red);    font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; }
+.td-earn  { color: var(--green);  font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+.td-none  { color: var(--muted); font-weight: 400; text-align: center; }
+
+/* Fri toggle */
+.fri-toggle {
+  display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden;
+}
+.fri-btn {
+  background: none; border: none; padding: 3px 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: .63rem;
+  cursor: pointer; transition: all .12s; white-space: nowrap;
+}
+.fri-btn-work { color: var(--green); }
+.fri-btn-work.active, .fri-btn-work:hover { background: var(--green-bg); color: var(--green); }
+.fri-btn-off  { color: var(--muted); border-left: 1px solid var(--rule); }
+.fri-btn-off.active, .fri-btn-off:hover  { background: var(--red-bg); color: var(--red); }
+
+/* Card footer */
+.ts-footer {
+  display: flex; align-items: stretch; flex-wrap: wrap;
+  background: #f5f2e8; border-top: 1.5px solid var(--rule);
+  gap: 0;
+}
+.foot-stat {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 10px 16px; border-right: 1px solid var(--rule);
+  min-width: 90px;
+}
+.foot-stat:last-child { border-right: none; margin-left: auto; min-width: 120px; }
+.foot-lbl  { font-size: .52rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 2px; text-align: center; }
+.foot-val  { font-size: .92rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.fv-blue   { color: var(--blue); }
+.fv-orange { color: var(--orange); }
+.fv-red    { color: var(--red); }
+.fv-gold   { color: var(--gold); }
+.fv-green  { color: var(--green); }
+.foot-meta { padding: 10px 14px; font-size: .58rem; color: var(--muted); line-height: 1.7; margin-left: auto; text-align: right; border-left: 1px solid var(--rule); }
+
+/* ── SUMMARY TABLE ───────────────────────────────────── */
+.sum-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+.sum-table th {
+  padding: 7px 12px; border-bottom: 1.5px solid var(--rule);
+  text-align: left; font-size: .54rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500;
+}
+.sum-table th.tr { text-align: right; }
+.sum-table td { padding: 8px 12px; border-bottom: 1px solid var(--rule-lt); vertical-align: middle; }
+.sum-table tbody tr:last-child td { border-bottom: none; }
+.sum-table tbody tr:hover td { background: #fafae8; }
+.sum-badge {
+  font-size: .57rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px;
+}
+.sb-c { background: var(--gold-bg); color: var(--gold-dk); }
+.sb-m { background: var(--green-bg); color: var(--green); }
+.sum-grand {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 14px; margin-top: 12px; border-top: 2px solid var(--ink);
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 800;
+}
+.sum-grand-val { color: var(--green); }
+
+/* ── HELPERS ─────────────────────────────────────────── */
+.tc { text-align: center; }
+.tr { text-align: right; }
+.rate-change-note { font-size: .58rem; color: var(--orange); display: block; }
+.empty-state { padding: 28px; text-align: center; color: var(--muted); font-size: .8rem; }
+
+
+/* ── REVERSE MODE ────────────────────────────────────── */
+.rev-box {
+  background: var(--blue-bg); border: 1.5px solid var(--blue);
+  border-radius: 4px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px;
+}
+.rev-title { font-size: .58rem; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); font-weight: 700; margin-bottom: 2px; }
+.rev-emp-row { display: flex; flex-direction: column; gap: 4px; }
+.rev-emp-lbl { font-size: .58rem; color: var(--blue); font-weight: 600; }
+.rev-inp-row { display: flex; gap: 6px; align-items: center; }
+.rev-inp {
+  flex: 1; background: white; border: 1px solid var(--blue);
+  padding: 5px 8px; font-family: 'IBM Plex Mono', monospace;
+  font-size: .82rem; border-radius: 3px; outline: none; color: var(--ink);
+  transition: border-color .15s;
+}
+.rev-inp:focus { border-color: var(--ink); }
+.rev-hint { font-size: .56rem; color: var(--muted); }
+.rev-preview {
+  font-size: .65rem; padding: 6px 8px; border-radius: 3px;
+  background: white; border: 1px solid var(--rule); line-height: 1.6;
+}
+.rev-preview b { color: var(--blue); }
+.rev-preview .rev-warn { color: var(--orange); }
+.btn-rev-apply {
+  background: var(--blue); color: white; border: none;
+  padding: 7px 0; width: 100%; font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: .88rem; letter-spacing: .06em; text-transform: uppercase;
+  border-radius: 3px; cursor: pointer; transition: opacity .15s;
+}
+.btn-rev-apply:hover { opacity: .85; }
+
+/* ── EXCEL EXPORT BUTTON ─────────────────────────────── */
+.btn-excel {
+  background: #1d6a2e; color: white;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: .88rem; letter-spacing: .07em; text-transform: uppercase;
+  border: none; border-radius: 3px; cursor: pointer;
+  padding: 7px 16px; transition: all .15s; white-space: nowrap;
+}
+.btn-excel:hover { background: #17551f; transform: translateY(-1px); }
+
+/* ── PRINT ───────────────────────────────────────────── */
+@media print {
+  .hdr { position: static; }
+  .sidebar, .period-btns, .fri-toggle, .rate-editor .btn-save-rate,
+  .rate-editor .btn-reset-rate, .btn { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  body { background: white; }
+  .ts-card { box-shadow: none; page-break-after: always; }
+}
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .sidebar.mob-open { display: flex; }
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 801px) {
+  .mob-sidebar-btn { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ═══════════════════════════════════════════ -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-brand">
+      <div class="hdr-brand-t">TIMESEDDEL</div>
+      <div class="hdr-brand-s">KA Transport · Fagoverenskomst</div>
+    </div>
+    <div class="hdr-ctrls">
+      <div class="hdr-field">
+        <span class="hdr-lbl">Lønperiode start</span>
+        <select class="hdr-sel" id="selMonth" onchange="onPeriodChange()" style="width:128px">
+          <option value="0">Januar</option><option value="1">Februar</option>
+          <option value="2">Marts</option><option value="3">April</option>
+          <option value="4">Maj</option><option value="5">Juni</option>
+          <option value="6">Juli</option><option value="7">August</option>
+          <option value="8">September</option><option value="9">Oktober</option>
+          <option value="10">November</option><option value="11">December</option>
+        </select>
+      </div>
+      <div class="hdr-field">
+        <span class="hdr-lbl">År</span>
+        <input type="number" class="hdr-inp" id="selYear" value="2026" min="2024" max="2030"
+          onchange="onPeriodChange()" style="width:80px">
+      </div>
+      <div class="hdr-right">
+        <button class="btn btn-ghost btn-sm mob-sidebar-btn" onclick="toggleSidebar()" title="Medarbejdere" id="sidebarToggleBtn">☰ Medarbj.</button>
+        <button class="btn btn-ghost btn-sm" onclick="shiftPeriod(-1)">← Forrige</button>
+        <button class="btn btn-ghost btn-sm" onclick="shiftPeriod(1)">Næste →</button>
+        <button class="btn btn-ghost btn-sm hide-mobile" onclick="window.print()">⎙ Print</button>
+        <button class="btn-excel btn-sm" onclick="exportExcel()">⬇ Excel</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ LAYOUT ════════════════════════════════════════════ -->
+<div class="layout">
+
+  <!-- ── SIDEBAR ────────────────────────────────────── -->
+  <aside class="sidebar">
+
+    <!-- OE -->
+    <div class="card">
+      <div class="card-head">Overenskomsttillæg</div>
+      <div class="card-body">
+        <div class="oe-box">
+          <label for="oeInp">OE-tillæg %</label>
+          <input type="number" class="oe-inp" id="oeInp" value="4.25" step="0.01" min="0" max="30"
+            onchange="onOeChange()">
+          <span class="oe-hint">Beregnes af bruttolønnen</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employee list -->
+    <div class="card">
+      <div class="card-head">
+        Medarbejdere
+        <button class="btn btn-gold btn-xs" onclick="addEmployee()">+ Tilføj</button>
+      </div>
+      <div class="card-body" style="padding:0">
+        <ul class="emp-list" id="empList"></ul>
+      </div>
+    </div>
+
+    <!-- Employee edit form -->
+    <div class="card" id="empFormCard">
+      <div class="card-head">
+        <span id="empFormTitle">Rediger medarbejder</span>
+        <span class="ch-sub" id="empFormSub"></span>
+      </div>
+      <div class="card-body">
+        <div class="form-grid" id="empForm"></div>
+      </div>
+    </div>
+
+    <!-- Reverse mode -->
+    <div class="card" id="revCard">
+      <div class="card-head">Baglæns timeseddel</div>
+      <div class="card-body">
+        <div class="rev-box">
+          <div class="rev-title">Indtast ønskede timer → appen fordeler selv</div>
+          <div id="revEmpRows"></div>
+          <div class="rev-hint">Normaltimer: 7,5t/dag. Hverdage fyldes først, lørdage sidst. Fri gives automatisk når timerne er brugt.</div>
+          <div id="revPreview" style="display:none" class="rev-preview"></div>
+          <button class="btn-rev-apply" onclick="applyReverse()">Anvend på timeseddel</button>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── TIMESEDDEL ──────────────────────────────────── -->
+  <main class="ts-area">
+
+    <div class="period-bar">
+      <div>
+        <div class="period-title" id="periodTitle">—</div>
+        <div class="period-sub"   id="periodSub"></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="emp-tabs" id="empTabs"></div>
+
+    <!-- Card per employee (shown for active tab) -->
+    <div id="tsCards"></div>
+
+    <!-- Summary -->
+    <div class="card" id="summaryCard" style="display:none">
+      <div class="card-head">Periodeopsummering – alle medarbejdere</div>
+      <div class="card-body">
+        <table class="sum-table">
+          <thead>
+            <tr>
+              <th>Navn</th><th>Type</th>
+              <th class="tc">Timer</th>
+              <th class="tc">OT 1–3</th>
+              <th class="tc">OT +3</th>
+              <th>Timeløn</th>
+              <th class="tr">Periodeløn</th>
+            </tr>
+          </thead>
+          <tbody id="sumBody"></tbody>
+        </table>
+        <div class="sum-grand">
+          <span>Total lønomkostning</span>
+          <span class="sum-grand-val" id="sumGrand">—</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════════════════
+   CONSTANTS
+══════════════════════════════════════════════════════ */
+const MONTH_NAMES  = ['Januar','Februar','Marts','April','Maj','Juni','Juli','August','September','Oktober','November','December'];
+const DAYNAMES     = ['Man','Tir','Ons','Tor','Fre','Lør'];
+const PAUSE_MIN    = 30;
+const NORMAL_H_DAY = 7.5;
+const MONTHLY_H    = 162.5;
+const SAT_TILLÆG   = 36;    // KA lørdagstillæg kr/t (gælder alle)
+
+// KA overenskomst satser – datobaseret
+const KA_RATES = {
+  chauffør: [
+    { from: new Date(2024,  4,  1), rate: 160.25 },
+    { from: new Date(2025,  2,  1), rate: 163.50 },
+    { from: new Date(2026,  2,  1), rate: 166.75 },
+    { from: new Date(2027,  2,  1), rate: 170.75 },
+  ],
+  medhælper: [
+    { from: new Date(2024,  4,  1), rate: 157.00 },
+    { from: new Date(2025,  2,  1), rate: 160.25 },
+    { from: new Date(2026,  2,  1), rate: 163.50 },
+    { from: new Date(2027,  2,  1), rate: 167.50 },
+  ]
+};
+
+/* ══════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════ */
+const state = {
+  employees:   [],       // [{ id, name, type, targetMonthly }]
+  nextId:      1,
+  editEmpId:   null,     // which emp is shown in sidebar form
+  activeEmpId: null,     // which tab is active
+
+  // dayEntries[empId][dateKey] = { off:bool, startMin:int, endMin:int }
+  // dateKey format: 'YYYY-MM-DD'
+  dayEntries:  {},
+
+  // manualRates[empId] = number|null
+  manualRates: {},
+};
+
+/* ══════════════════════════════════════════════════════
+   PURE HELPERS
+══════════════════════════════════════════════════════ */
+
+function kaRate(type, date) {
+  const schedule = KA_RATES[type];
+  let rate = schedule[0].rate;
+  for (const s of schedule) {
+    if (date >= s.from) rate = s.rate;
+    else break;
+  }
+  return rate;
+}
+
+function kaRateToday(type) {
+  return kaRate(type, new Date());
+}
+
+function effectiveHourly(emp, minRate) {
+  const manual = state.manualRates[emp.id];
+  if (manual !== null && manual !== undefined) return Math.max(manual, minRate);
+  const t = parseFloat(emp.targetMonthly);
+  if (!t || t <= 0) return minRate;
+  const oe = getOePct();
+  const computed = t / (MONTHLY_H * (1 + oe));
+  return Math.max(computed, minRate);
+}
+
+function computeEarnings(hourly, workedH, oe, isSat = false) {
+  let base, ot1H = 0, ot2H = 0;
+  // Lørdagstillæg lægges til timelønnen for alle lørdagstimer (KA overenskomst)
+  const effectiveRate = isSat ? hourly + SAT_TILLÆG : hourly;
+  if (workedH <= NORMAL_H_DAY) {
+    base = effectiveRate * workedH;
+  } else {
+    const ot = workedH - NORMAL_H_DAY;
+    ot1H     = Math.min(ot, 3);
+    ot2H     = Math.max(ot - 3, 0);
+    base     = effectiveRate * NORMAL_H_DAY + effectiveRate * 1.5 * ot1H + effectiveRate * 2.0 * ot2H;
+  }
+  return { gross: base * (1 + oe), ot1H, ot2H };
+}
+
+function getPeriodDates(month, year) {
+  const start = new Date(year, month, 20);
+  const em    = month + 1 > 11 ? 0    : month + 1;
+  const ey    = month + 1 > 11 ? year + 1 : year;
+  const end   = new Date(ey, em, 19);
+  const days  = [];
+  const cur   = new Date(start);
+  while (cur <= end) { days.push(new Date(cur)); cur.setDate(cur.getDate() + 1); }
+  return { start, end, days, endMonth: em, endYear: ey };
+}
+
+function isoWeek(d) {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
+  const y = t.getUTCFullYear();
+  return Math.ceil((((t - new Date(Date.UTC(y, 0, 1))) / 86400000) + 1) / 7);
+}
+
+function dk(date) {
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+}
+
+function parseHHMM(str) {
+  if (!str) return null;
+  const clean = str.trim().replace('.', ':').replace(/\s+/, '');
+  const m1 = clean.match(/^(\d{1,2}):(\d{2})$/);
+  if (m1) {
+    const h = parseInt(m1[1]), m = parseInt(m1[2]);
+    if (h >= 0 && h <= 23 && m >= 0 && m <= 59) return h * 60 + m;
+  }
+  const m2 = clean.match(/^(\d{3,4})$/);
+  if (m2) {
+    const s = m2[1].padStart(4, '0');
+    const h = parseInt(s.slice(0, 2)), m = parseInt(s.slice(2));
+    if (h >= 0 && h <= 23 && m >= 0 && m <= 59) return h * 60 + m;
+  }
+  return null;
+}
+
+function hhmm(min) {
+  if (min === null || min === undefined) return '';
+  return `${String(Math.floor(min / 60)).padStart(2,'0')}:${String(min % 60).padStart(2,'0')}`;
+}
+
+function fmtDate(d) {
+  return d.toLocaleDateString('da-DK', { day: '2-digit', month: '2-digit' });
+}
+
+function fmtH(h) {
+  if (!h || h <= 0) return '—';
+  const hh = Math.floor(h);
+  const mm = Math.round((h - hh) * 60);
+  return `${hh}t ${String(mm).padStart(2,'0')}m`;
+}
+
+function fmtKr(n) {
+  return n.toFixed(2).replace('.', ',') + ' kr';
+}
+
+function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function r5(m) { return Math.round(m / 5) * 5; }
+
+function simulateDay(isSat) {
+  const startMin  = r5(randInt(7 * 60 + 35, 9 * 60 + 55));
+  const workMin   = isSat
+    ? r5(randInt(3 * 60, 5 * 60 + 30))
+    : r5(randInt(7 * 60, 8 * 60 + 30));
+  const endMin    = startMin + workMin + PAUSE_MIN;
+  return { off: false, startMin, endMin };
+}
+
+/* ══════════════════════════════════════════════════════
+   STATE ACCESSORS
+══════════════════════════════════════════════════════ */
+
+function getOePct()  { return parseFloat(document.getElementById('oeInp').value) / 100 || 0; }
+function getMonth()  { return parseInt(document.getElementById('selMonth').value); }
+function getYear()   { return parseInt(document.getElementById('selYear').value); }
+function getEmpById(id) { return state.employees.find(e => e.id === id); }
+
+function getDayEntry(empId, key) {
+  return state.dayEntries[empId]?.[key] ?? null;
+}
+
+function setDayEntry(empId, key, entry) {
+  if (!state.dayEntries[empId]) state.dayEntries[empId] = {};
+  state.dayEntries[empId][key] = entry;
+}
+
+function simulateEmployeePeriod(empId) {
+  const { days } = getPeriodDates(getMonth(), getYear());
+  if (!state.dayEntries[empId]) state.dayEntries[empId] = {};
+  days.forEach(date => {
+    const dow  = date.getDay();
+    if (dow === 0) return;
+    const key  = dk(date);
+    if (state.dayEntries[empId][key] !== undefined) return; // keep existing
+    const isSat = dow === 6;
+    if (isSat && Math.random() > 0.48) {
+      state.dayEntries[empId][key] = { off: true };
+    } else {
+      state.dayEntries[empId][key] = simulateDay(isSat);
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   EMPLOYEE MANAGEMENT
+══════════════════════════════════════════════════════ */
+
+function addEmployee() {
+  const id = state.nextId++;
+  const emp = { id, name: 'Ny medarbejder', type: 'chauffør', targetMonthly: '' };
+  state.employees.push(emp);
+  state.manualRates[id] = null;
+  simulateEmployeePeriod(id);
+  state.editEmpId   = id;
+  state.activeEmpId = id;
+  renderAll();
+}
+
+function deleteEmployee(id) {
+  if (!confirm(`Slet medarbejder?`)) return;
+  state.employees = state.employees.filter(e => e.id !== id);
+  delete state.dayEntries[id];
+  delete state.manualRates[id];
+  if (state.editEmpId   === id) state.editEmpId   = state.employees[0]?.id ?? null;
+  if (state.activeEmpId === id) state.activeEmpId = state.employees[0]?.id ?? null;
+  renderAll();
+}
+
+function selectEmpForEdit(id) {
+  state.editEmpId = id;
+  renderEmpList();
+  renderEmpForm();
+}
+
+function selectTab(id) {
+  state.activeEmpId = id;
+  renderTabs();
+  renderCards();
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: SIDEBAR
+══════════════════════════════════════════════════════ */
+
+function renderEmpList() {
+  const ul = document.getElementById('empList');
+  ul.innerHTML = '';
+  if (state.employees.length === 0) {
+    ul.innerHTML = '<li class="empty-state">Ingen medarbejdere</li>';
+    return;
+  }
+  state.employees.forEach(emp => {
+    const minRate = kaRateToday(emp.type);
+    const hourly  = effectiveHourly(emp, minRate);
+    const li = document.createElement('li');
+    li.className = 'emp-li' + (emp.id === state.editEmpId ? ' sel' : '');
+    li.onclick = () => selectEmpForEdit(emp.id);
+    li.innerHTML = `
+      <span class="eli-dot ${emp.type === 'chauffør' ? 'dot-c' : 'dot-m'}"></span>
+      <span class="eli-name">${emp.name}</span>
+      <span class="eli-type">${emp.type === 'chauffør' ? 'Chfr.' : 'Medhjlp.'}</span>
+      <span class="eli-rate">${hourly.toFixed(2)} kr/t</span>
+      <button class="eli-del" onclick="event.stopPropagation(); deleteEmployee(${emp.id})" title="Slet">✕</button>`;
+    ul.appendChild(li);
+  });
+}
+
+function renderEmpForm() {
+  const card  = document.getElementById('empFormCard');
+  const title = document.getElementById('empFormTitle');
+  const sub   = document.getElementById('empFormSub');
+  const form  = document.getElementById('empForm');
+
+  const emp = state.employees.find(e => e.id === state.editEmpId);
+  if (!emp) {
+    form.innerHTML = '<div class="empty-state">Vælg en medarbejder</div>';
+    return;
+  }
+
+  const minRate = kaRateToday(emp.type);
+  const manRate = state.manualRates[emp.id];
+  const hourly  = effectiveHourly(emp, minRate);
+  const t       = parseFloat(emp.targetMonthly);
+  const lifted  = !manRate && t > 0 && (t / (MONTHLY_H * (1 + getOePct()))) < minRate;
+
+  title.textContent = emp.name;
+  sub.textContent   = `ID ${emp.id}`;
+
+  form.innerHTML = `
+    <div class="fg-row">
+      <label class="fg-lbl">Navn</label>
+      <input class="fg-inp" value="${emp.name}"
+        oninput="updateEmpField(${emp.id},'name',this.value)">
+    </div>
+    <div class="fg-row">
+      <label class="fg-lbl">Type</label>
+      <select class="fg-sel" onchange="updateEmpField(${emp.id},'type',this.value)">
+        <option value="chauffør"  ${emp.type==='chauffør' ?'selected':''}>Chauffør (godstransport)</option>
+        <option value="medhælper" ${emp.type==='medhælper'?'selected':''}>Chaufførmedhælper</option>
+      </select>
+    </div>
+    <div class="fg-row">
+      <label class="fg-lbl">Ønsket månedsløn inkl. OE</label>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input class="fg-inp" type="number" placeholder="fx 28000"
+          value="${emp.targetMonthly}"
+          oninput="updateEmpField(${emp.id},'targetMonthly',this.value)"
+          style="flex:1">
+        <span style="font-size:.65rem;color:var(--muted);white-space:nowrap">kr/md</span>
+      </div>
+      <span class="fg-hint">Beregner timeløn automatisk</span>
+    </div>
+    <div class="fg-row">
+      <label class="fg-lbl">Beregnet timeløn</label>
+      <div class="fg-computed ${lifted ? 'warn' : ''}">
+        ${hourly.toFixed(2)} kr/t
+        ${manRate ? ' · <em>manuelt</em>' : lifted ? ' · hævet til mindsteløn' : ` · mindsteløn ${minRate.toFixed(2)} kr/t`}
+      </div>
+    </div>
+    ${manRate ? `<button class="btn btn-danger btn-sm" onclick="resetManualRate(${emp.id})">Nulstil manuel timepris</button>` : ''}
+    <div class="fg-row">
+      <label class="fg-lbl">KA-mindsteløn i dag</label>
+      <div style="font-size:.72rem;color:var(--muted)">${minRate.toFixed(2)} kr/t (${emp.type})</div>
+    </div>`;
+}
+
+function updateEmpField(id, field, value) {
+  const emp = getEmpById(id);
+  if (!emp) return;
+  emp[field] = value;
+  if (field === 'type') {
+    // type is a <select> — no focus issue, full rebuild is fine
+    state.manualRates[id] = null;
+    renderEmpForm();
+  } else {
+    // 'name' / 'targetMonthly': typing in these inputs
+    // DO NOT call renderEmpForm() — it would set form.innerHTML and kill focus!
+    // Instead, patch only the display elements that need updating.
+    patchEmpFormDisplay(emp);
+  }
+  renderEmpList();
+  renderTabs();
+  renderCards();
+  renderSummary();
+}
+
+// Surgically update only the computed/display parts of the emp form
+// without touching the input elements (so focus is preserved)
+function patchEmpFormDisplay(emp) {
+  // Card header title
+  const title = document.getElementById('empFormTitle');
+  if (title) title.textContent = emp.name;
+
+  // Computed hourly display
+  const minRate = kaRateToday(emp.type);
+  const manRate = state.manualRates[emp.id];
+  const hourly  = effectiveHourly(emp, minRate);
+  const t       = parseFloat(emp.targetMonthly);
+  const oe      = getOePct();
+  const lifted  = !manRate && t > 0 && (t / (MONTHLY_H * (1 + oe))) < minRate;
+
+  const computed = document.querySelector('#empForm .fg-computed');
+  if (computed) {
+    computed.className = `fg-computed${lifted ? ' warn' : ''}`;
+    computed.innerHTML = `${hourly.toFixed(2)} kr/t`
+      + (manRate ? ' · <em>manuelt</em>'
+        : lifted  ? ' · hævet til mindsteløn'
+        : ` · mindsteløn ${minRate.toFixed(2)} kr/t`);
+  }
+}
+
+function resetManualRate(empId) {
+  state.manualRates[empId] = null;
+  renderAll();
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: PERIOD LABEL
+══════════════════════════════════════════════════════ */
+
+function renderPeriodLabel() {
+  const m = getMonth(), y = getYear();
+  const { start, end, endMonth, endYear } = getPeriodDates(m, y);
+  document.getElementById('periodTitle').textContent =
+    `Lønperiode: 20. ${MONTH_NAMES[m]} – 19. ${MONTH_NAMES[endMonth]} ${endYear}`;
+  document.getElementById('periodSub').textContent =
+    `${fmtDate(start)} → ${fmtDate(end)} · Søndag er ikke arbejdsdag`;
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: TABS
+══════════════════════════════════════════════════════ */
+
+function renderTabs() {
+  const container = document.getElementById('empTabs');
+  container.innerHTML = '';
+  state.employees.forEach(emp => {
+    const div = document.createElement('div');
+    div.className = 'emp-tab' + (emp.id === state.activeEmpId ? ' active' : '');
+    div.onclick   = () => selectTab(emp.id);
+    div.innerHTML = `
+      <span class="tab-dot ${emp.type === 'chauffør' ? 'dot-c' : 'dot-m'}"></span>
+      ${emp.name}`;
+    container.appendChild(div);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: TIMESEDDEL CARDS
+══════════════════════════════════════════════════════ */
+
+function renderCards() {
+  const container = document.getElementById('tsCards');
+  container.innerHTML = '';
+
+  const emp = getEmpById(state.activeEmpId);
+  if (!emp) {
+    container.innerHTML = '<div class="empty-state" style="padding:40px">Tilføj en medarbejder for at se timesedlen</div>';
+    return;
+  }
+
+  container.appendChild(buildCard(emp));
+}
+
+function buildCard(emp) {
+  const oe     = getOePct();
+  const m      = getMonth(), y = getYear();
+  const { days, endMonth, endYear } = getPeriodDates(m, y);
+  const manRate = state.manualRates[emp.id];
+
+  // ── Build row data ────────────────────────────────
+  let totalH = 0, totalOT1 = 0, totalOT2 = 0, totalEarn = 0, totalSatH = 0;
+  let tableHTML = '';
+  let seenWeeks = new Set();
+  let lastKaRate = null;
+
+  const workDays = days.filter(d => d.getDay() !== 0);
+
+  workDays.forEach(date => {
+    const dow    = date.getDay();
+    const isSat  = dow === 6;
+    const dayIdx = isSat ? 5 : dow - 1;
+    const key    = dk(date);
+    const wk     = isoWeek(date);
+
+    const minRate   = kaRate(emp.type, date);
+    const hourlyDay = effectiveHourly(emp, minRate);
+    const entry     = getDayEntry(emp.id, key);
+    const isOff     = !entry || entry.off;
+
+    // Week separator
+    if (!seenWeeks.has(wk)) {
+      seenWeeks.add(wk);
+      tableHTML += `<tr class="tr-sep"><td colspan="11">Uge ${wk}</td></tr>`;
+    }
+
+    // KA rate change banner
+    if (!isOff && lastKaRate !== null && minRate !== lastKaRate) {
+      tableHTML += `<tr class="tr-rate-change"><td colspan="11">
+        ⟳ Ny KA-mindsteløn fra ${fmtDate(date)}: <strong>${minRate.toFixed(2)} kr/t</strong>
+        <span style="opacity:.7">(tidligere ${lastKaRate.toFixed(2)} kr/t)</span>
+      </td></tr>`;
+    }
+    if (!isOff) lastKaRate = minRate;
+
+    if (isOff) {
+      tableHTML += `
+        <tr class="tr-off">
+          <td class="td-day">${DAYNAMES[dayIdx]}${isSat ? ' <span style="font-size:.6rem;font-weight:400;color:var(--muted)">(lør)</span>' : ''}</td>
+          <td class="td-date">${fmtDate(date)}</td>
+          <td class="td-off" colspan="6">— Fri dag —</td>
+          <td colspan="2" class="tc">
+            ${friBtns(emp.id, key, true)}
+          </td>
+        </tr>`;
+      return;
+    }
+
+    const startMin = entry.startMin ?? null;
+    const endMin   = entry.endMin   ?? null;
+    const workedH  = (startMin !== null && endMin !== null)
+      ? Math.max(0, (endMin - startMin - PAUSE_MIN) / 60)
+      : 0;
+
+    const { gross, ot1H, ot2H } = computeEarnings(hourlyDay, workedH, oe, isSat);
+    totalH += workedH; totalOT1 += ot1H; totalOT2 += ot2H; totalEarn += gross;
+    if (isSat && workedH > 0) totalSatH += workedH;
+
+    tableHTML += `
+      <tr class="${isSat ? 'tr-sat' : ''}">
+        <td class="td-day">${DAYNAMES[dayIdx]}${isSat ? ' <span style="font-size:.6rem;font-weight:400;color:var(--muted)">(lør)</span>' : ''}</td>
+        <td class="td-date">${fmtDate(date)}</td>
+        <td class="tc">
+          <input class="t-inp" type="text" placeholder="07:45"
+            value="${hhmm(startMin)}"
+            data-emp="${emp.id}" data-date="${key}" data-field="start"
+            onchange="onTimeChange(this)" onblur="onTimeChange(this)">
+        </td>
+        <td class="tc" style="font-size:.72rem;color:var(--muted)">→</td>
+        <td class="tc">
+          <input class="t-inp" type="text" placeholder="16:00"
+            value="${hhmm(endMin)}"
+            data-emp="${emp.id}" data-date="${key}" data-field="end"
+            onchange="onTimeChange(this)" onblur="onTimeChange(this)">
+        </td>
+        <td class="td-pause tc">−30</td>
+        <td class="td-hours">${workedH > 0 ? workedH.toFixed(2).replace('.', ',') + ' t' : '—'}</td>
+        <td class="${ot1H > 0 ? 'td-ot1' : 'td-none'} tc">${ot1H > 0 ? '+' + ot1H.toFixed(2).replace('.', ',') + 't' : '—'}</td>
+        <td class="${ot2H > 0 ? 'td-ot2' : 'td-none'} tc">${ot2H > 0 ? '+' + ot2H.toFixed(2).replace('.', ',') + 't' : '—'}</td>
+        <td class="tc" style="color:var(--green);font-size:.72rem;font-weight:500">${isSat && workedH > 0 ? '+36 kr/t' : '—'}</td>
+        <td class="td-earn">${gross > 0 ? fmtKr(gross) : '—'}</td>
+        <td class="tc">${friBtns(emp.id, key, false)}</td>
+      </tr>`;
+  });
+
+  // ── Footer stats ──────────────────────────────────
+  const oePart  = totalEarn - totalEarn / (1 + oe);
+  const minNow  = kaRateToday(emp.type);
+  const hourly  = effectiveHourly(emp, minNow);
+
+  // Rate info for footer
+  const ratesInPeriod = [...new Set(workDays.map(d => kaRate(emp.type, d)))];
+  const hasRateChange = ratesInPeriod.length > 1;
+  const rateLabel = hasRateChange
+    ? ratesInPeriod.map(r => r.toFixed(2)).join(' → ') + ' kr/t'
+    : ratesInPeriod[0].toFixed(2) + ' kr/t';
+
+  // ── Build card DOM ────────────────────────────────
+  const card = document.createElement('div');
+  card.className = 'ts-card';
+  card.id = `card-${emp.id}`;
+
+  card.innerHTML = `
+    <div class="ts-card-head">
+      <span class="tch-name">${emp.name}</span>
+      <span class="tch-badge ${emp.type === 'chauffør' ? 'badge-c' : 'badge-m'}">
+        ${emp.type === 'chauffør' ? 'Chauffør – Godstransport' : 'Chaufførmedhælper'}
+      </span>
+      <span class="tch-period">20. ${MONTH_NAMES[m]} – 19. ${MONTH_NAMES[endMonth]} ${endYear}${hasRateChange ? ' · <span style="color:var(--gold)">⟳ Satsskift</span>' : ''}</span>
+      <div class="rate-editor">
+        <div class="rate-lbl">Timeløn (ekskl. OE)${manRate ? '<br><span style="color:#f88;font-size:.5rem">● manuelt</span>' : ''}</div>
+        <input class="rate-inp" id="rateInp-${emp.id}" type="number"
+          value="${hourly.toFixed(2)}" step="0.25" min="${minNow.toFixed(2)}"
+          onkeydown="if(event.key==='Enter') saveRate(${emp.id})">
+        <span class="rate-unit">kr/t</span>
+        <button class="btn-save-rate"  onclick="saveRate(${emp.id})">Gem</button>
+        ${manRate ? `<button class="btn-reset-rate" onclick="resetManualRate(${emp.id})">Nulstil</button>` : ''}
+      </div>
+    </div>
+
+    <table class="day-table">
+      <thead>
+        <tr>
+          <th>Dag</th><th>Dato</th>
+          <th class="tc">Mødt</th>
+          <th class="tc"></th>
+          <th class="tc">Gået</th>
+          <th class="tc">Pause</th>
+          <th class="tc">Timer</th>
+          <th class="tc th-ot1">Overarb. 1–3</th>
+          <th class="tc th-ot2">Overarb. +3</th>
+          <th class="tc" style="color:var(--green)">Lør.tillæg</th>
+          <th class="tr">Optjent inkl. OE</th>
+          <th class="tc">Dag</th>
+        </tr>
+      </thead>
+      <tbody>${tableHTML}</tbody>
+    </table>
+
+    <div class="ts-footer">
+      <div class="foot-stat">
+        <div class="foot-lbl">Timer i alt</div>
+        <div class="foot-val fv-blue">${totalH > 0 ? fmtH(totalH) : '0t 00m'}</div>
+      </div>
+      <div class="foot-stat">
+        <div class="foot-lbl">Overarb. 1–3</div>
+        <div class="foot-val fv-orange">${totalOT1 > 0 ? fmtH(totalOT1) : '—'}</div>
+      </div>
+      <div class="foot-stat">
+        <div class="foot-lbl">Overarb. +3</div>
+        <div class="foot-val fv-red">${totalOT2 > 0 ? fmtH(totalOT2) : '—'}</div>
+      </div>
+      <div class="foot-stat">
+        <div class="foot-lbl">KA-sats${hasRateChange ? ' (skifter)' : ''}</div>
+        <div class="foot-val fv-gold" style="font-size:.75rem">${rateLabel}</div>
+      </div>
+      <div class="foot-stat">
+        <div class="foot-lbl">OE-tillæg ${(oe * 100).toFixed(2).replace('.', ',')}%</div>
+        <div class="foot-val">${fmtKr(oePart)}</div>
+      </div>
+      <div class="foot-stat">
+        <div class="foot-lbl">Lør.tillæg (KA)</div>
+        <div class="foot-val fv-green">${totalSatH > 0 ? fmtKr(totalSatH * SAT_TILLÆG * (1 + oe)) + '<br><span style=\"font-size:.62rem\">(' + fmtH(totalSatH) + ' × 36 kr)</span>' : '—'}</div>
+      </div>
+      <div class="foot-stat" style="flex:1;min-width:120px">
+        <div class="foot-lbl">Periodeløn total</div>
+        <div class="foot-val fv-green">${fmtKr(totalEarn)}</div>
+      </div>
+      <div class="foot-meta">
+        KA-satser automatisk · Pause: 30 min/dag<br>
+        OT 1–3t: +50% · OT +3t: +100% · Lør.tillæg: +36 kr/t
+      </div>
+    </div>`;
+
+  return card;
+}
+
+function friBtns(empId, key, isOff) {
+  return `<div class="fri-toggle">
+    <button class="fri-btn fri-btn-work ${!isOff ? 'active' : ''}"
+      onclick="toggleFri(${empId},'${key}',false)" title="Arbejdsdag">Arb.</button>
+    <button class="fri-btn fri-btn-off ${isOff ? 'active' : ''}"
+      onclick="toggleFri(${empId},'${key}',true)" title="Fri dag">Fri</button>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER: SUMMARY
+══════════════════════════════════════════════════════ */
+
+function renderSummary() {
+  const panel  = document.getElementById('summaryCard');
+  const tbody  = document.getElementById('sumBody');
+  const grandEl = document.getElementById('sumGrand');
+  const oe     = getOePct();
+  const { days } = getPeriodDates(getMonth(), getYear());
+
+  if (state.employees.length === 0) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+
+  tbody.innerHTML = '';
+  let grand = 0;
+
+  state.employees.forEach(emp => {
+    let totalH = 0, totalOT1 = 0, totalOT2 = 0, totalEarn = 0;
+
+    days.forEach(date => {
+      if (date.getDay() === 0) return;
+      const key     = dk(date);
+      const entry   = getDayEntry(emp.id, key);
+      if (!entry || entry.off) return;
+      const minRate   = kaRate(emp.type, date);
+      const hourlyDay = effectiveHourly(emp, minRate);
+      const startMin  = entry.startMin ?? null;
+      const endMin    = entry.endMin   ?? null;
+      if (startMin === null || endMin === null) return;
+      const workedH   = Math.max(0, (endMin - startMin - PAUSE_MIN) / 60);
+      const isSat = date.getDay() === 6;
+      const { gross, ot1H, ot2H } = computeEarnings(hourlyDay, workedH, oe, isSat);
+      totalH += workedH; totalOT1 += ot1H; totalOT2 += ot2H; totalEarn += gross;
+    });
+
+    grand += totalEarn;
+    const minNow = kaRateToday(emp.type);
+    const hourly = effectiveHourly(emp, minNow);
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight:500">${emp.name}</td>
+      <td><span class="sum-badge ${emp.type==='chauffør'?'sb-c':'sb-m'}">${emp.type}</span></td>
+      <td style="text-align:center;color:var(--blue);font-weight:500">${fmtH(totalH) || '0t 00m'}</td>
+      <td style="text-align:center;color:var(--orange)">${totalOT1 > 0 ? fmtH(totalOT1) : '—'}</td>
+      <td style="text-align:center;color:var(--red)">${totalOT2 > 0 ? fmtH(totalOT2) : '—'}</td>
+      <td style="color:var(--muted)">${hourly.toFixed(2)} kr/t</td>
+      <td style="text-align:right;color:var(--green);font-weight:600">${fmtKr(totalEarn)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  grandEl.textContent = fmtKr(grand);
+}
+
+/* ══════════════════════════════════════════════════════
+   EVENT HANDLERS
+══════════════════════════════════════════════════════ */
+
+function onTimeChange(input) {
+  const empId = parseInt(input.dataset.emp);
+  const key   = input.dataset.date;
+  const field = input.dataset.field;
+
+  // Validate
+  const val = parseHHMM(input.value);
+  if (input.value.trim() !== '' && val === null) {
+    input.classList.add('invalid');
+    return;
+  }
+  input.classList.remove('invalid');
+  if (val !== null) input.value = hhmm(val);
+
+  // Update state
+  const entry = getDayEntry(empId, key) || {};
+  entry.off = false;
+  if (field === 'start') entry.startMin = val;
+  else                   entry.endMin   = val;
+  setDayEntry(empId, key, entry);
+
+  // Re-render card and summary (preserve focus by not rebuilding DOM unnecessarily)
+  // We rebuild the card — focus may shift but it's acceptable for now
+  renderCards();
+  renderSummary();
+}
+
+function toggleFri(empId, key, setFree) {
+  empId = parseInt(empId);
+  if (setFree) {
+    setDayEntry(empId, key, { off: true });
+  } else {
+    const date  = new Date(key);
+    const isSat = date.getDay() === 6;
+    setDayEntry(empId, key, simulateDay(isSat));
+  }
+  renderCards();
+  renderSummary();
+}
+
+function saveRate(empId) {
+  const inp  = document.getElementById(`rateInp-${empId}`);
+  const val  = parseFloat(inp.value);
+  const emp  = getEmpById(empId);
+  if (!emp || isNaN(val)) return;
+  const min  = kaRateToday(emp.type);
+  state.manualRates[empId] = Math.max(val, min);
+  if (val < min) {
+    inp.value = min.toFixed(2);
+    inp.style.borderColor = 'var(--red)';
+    setTimeout(() => { inp.style.borderColor = ''; }, 1500);
+  }
+  renderAll();
+}
+
+function onPeriodChange() {
+  // Simulate new period entries for all employees (won't overwrite existing)
+  state.employees.forEach(emp => simulateEmployeePeriod(emp.id));
+  renderAll();
+}
+
+function onOeChange() {
+  renderEmpList();
+  renderEmpForm();
+  renderCards();
+  renderSummary();
+}
+
+function shiftPeriod(dir) {
+  const mSel = document.getElementById('selMonth');
+  const ySel = document.getElementById('selYear');
+  let m = parseInt(mSel.value) + dir;
+  let y = parseInt(ySel.value);
+  if (m < 0)  { m = 11; y--; }
+  if (m > 11) { m = 0;  y++; }
+  mSel.value = m;
+  ySel.value = y;
+  onPeriodChange();
+}
+
+/* ══════════════════════════════════════════════════════
+   RENDER ALL
+══════════════════════════════════════════════════════ */
+
+function renderAll() {
+  renderPeriodLabel();
+  renderEmpList();
+  renderEmpForm();
+  renderTabs();
+  renderCards();
+  renderSummary();
+  renderRevPanel();
+}
+
+/* ══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════ */
+(function init() {
+  // Auto-set current period
+  const now = new Date();
+  let m = now.getMonth(), y = now.getFullYear();
+  if (now.getDate() < 20) { m--; if (m < 0) { m = 11; y--; } }
+  document.getElementById('selMonth').value = m;
+  document.getElementById('selYear').value  = y;
+
+  // Demo employees
+  [
+    { id:1, name:'Lars Andersen',   type:'chauffør',  targetMonthly:'28000' },
+    { id:2, name:'Mette Sørensen',  type:'medhælper', targetMonthly:'26000' },
+    { id:3, name:'Jan Christensen', type:'chauffør',  targetMonthly:'' },
+  ].forEach(e => {
+    state.employees.push(e);
+    state.manualRates[e.id] = null;
+    simulateEmployeePeriod(e.id);
+  });
+
+  state.nextId      = 4;
+  state.editEmpId   = 1;
+  state.activeEmpId = 1;
+
+  renderAll();
+})();
+/* ══════════════════════════════════════════════════════
+   REVERSE MODE – baglæns timeseddel
+   Brugeren angiver ønsket antal timer per medarbejder.
+   Appen fordeler timerne på dagene i perioden:
+   1) Hverdage (Man–Fre) fyldes op til 7,5t nettotid
+   2) Lørdage bruges hvis der stadig er timer tilbage
+   3) Resten af dagene markeres som fri
+   Starttid simuleres realistisk (07:35–09:55)
+══════════════════════════════════════════════════════ */
+
+function renderRevPanel() {
+  const rows = document.getElementById('revEmpRows');
+  if (!rows) return;
+  if (state.employees.length === 0) {
+    rows.innerHTML = '<div class="rev-hint">Tilføj medarbejdere først</div>';
+    return;
+  }
+  rows.innerHTML = '';
+  state.employees.forEach(emp => {
+    const div = document.createElement('div');
+    div.className = 'rev-emp-row';
+    div.innerHTML = `
+      <label class="rev-emp-lbl">${emp.name}</label>
+      <div class="rev-inp-row">
+        <input class="rev-inp" type="number" id="revH-${emp.id}"
+          placeholder="fx 160" min="0" max="300" step="0.5"
+          oninput="updateRevPreview()">
+        <span style="font-size:.7rem;color:var(--muted);white-space:nowrap">timer</span>
+      </div>`;
+    rows.appendChild(div);
+  });
+  updateRevPreview();
+}
+
+function updateRevPreview() {
+  const preview = document.getElementById('revPreview');
+  if (!preview) return;
+
+  const { days } = getPeriodDates(getMonth(), getYear());
+  const weekdays = days.filter(d => { const dw = d.getDay(); return dw >= 1 && dw <= 5; });
+  const saturdays = days.filter(d => d.getDay() === 6);
+
+  let html = '';
+  let anySet = false;
+
+  state.employees.forEach(emp => {
+    const inp = document.getElementById(`revH-${emp.id}`);
+    if (!inp) return;
+    const target = parseFloat(inp.value);
+    if (!target || target <= 0) return;
+    anySet = true;
+
+    const plan = calcReversePlan(target, weekdays, saturdays);
+    const satLabel = plan.satDays > 0 ? ` + ${plan.satDays} lørdag${plan.satDays>1?'er':''}` : '';
+    const warnHtml = plan.overflow > 0
+      ? `<br><span class="rev-warn">⚠ ${plan.overflow.toFixed(1)}t kan ikke placeres (for mange timer)</span>`
+      : '';
+    html += `<b>${emp.name}:</b> ${target}t → ${plan.workDays} hverdage${satLabel}, ${plan.freeDays} fridage${warnHtml}<br>`;
+  });
+
+  if (!anySet) { preview.style.display = 'none'; return; }
+  preview.style.display = 'block';
+  preview.innerHTML = html;
+}
+
+function calcReversePlan(targetH, weekdays, saturdays) {
+  // Distribute hours: fill weekdays first (7.5h net each), then saturdays
+  let remaining = targetH;
+  let workDays = 0, satDays = 0;
+
+  // Weekdays: up to 7.5h each
+  for (const d of weekdays) {
+    if (remaining <= 0) break;
+    workDays++;
+    remaining -= Math.min(remaining, NORMAL_H_DAY);
+  }
+
+  // Saturdays: up to 5h each (typical sat shift)
+  const SAT_MAX = 5;
+  for (const d of saturdays) {
+    if (remaining <= 0) break;
+    satDays++;
+    remaining -= Math.min(remaining, SAT_MAX);
+  }
+
+  const overflow  = Math.max(0, remaining);
+  const freeDays  = (weekdays.length + saturdays.length) - workDays - satDays;
+  return { workDays, satDays, freeDays, overflow };
+}
+
+function applyReverse() {
+  const { days } = getPeriodDates(getMonth(), getYear());
+  const weekdays  = days.filter(d => { const dw = d.getDay(); return dw >= 1 && dw <= 5; });
+  const saturdays = days.filter(d => d.getDay() === 6);
+
+  let anyApplied = false;
+
+  state.employees.forEach(emp => {
+    const inp = document.getElementById(`revH-${emp.id}`);
+    if (!inp) return;
+    const target = parseFloat(inp.value);
+    if (!target || target <= 0) return;
+    anyApplied = true;
+
+    // Wipe existing day entries for this employee in this period
+    if (!state.dayEntries[emp.id]) state.dayEntries[emp.id] = {};
+    [...weekdays, ...saturdays].forEach(d => {
+      state.dayEntries[emp.id][dk(d)] = { off: true };
+    });
+
+    // Fill days
+    let remaining = target;
+    const SAT_MAX = 5;
+
+    for (const date of weekdays) {
+      if (remaining <= 0) break;
+      const hoursToday = Math.min(remaining, NORMAL_H_DAY);
+      remaining -= hoursToday;
+      const entry = buildEntryFromHours(hoursToday, false);
+      state.dayEntries[emp.id][dk(date)] = entry;
+    }
+
+    for (const date of saturdays) {
+      if (remaining <= 0) break;
+      const hoursToday = Math.min(remaining, SAT_MAX);
+      remaining -= hoursToday;
+      const entry = buildEntryFromHours(hoursToday, true);
+      state.dayEntries[emp.id][dk(date)] = entry;
+    }
+  });
+
+  if (!anyApplied) return;
+  renderAll();
+}
+
+function buildEntryFromHours(netHours, isSat) {
+  // Pick a realistic start time, compute end from net hours + pause
+  const startMin = r5(randInt(7 * 60 + 35, 9 * 60 + 55));
+  const endMin   = Math.round(startMin + netHours * 60 + PAUSE_MIN);
+  return { off: false, startMin, endMin };
+}
+
+/* ══════════════════════════════════════════════════════
+   EXCEL EXPORT – via SheetJS (no server needed)
+   Produces one sheet per employee + one summary sheet
+══════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════
+   MOBILE SIDEBAR TOGGLE
+══════════════════════════════════════════════════════ */
+function toggleSidebar() {
+  const sb  = document.querySelector('.sidebar');
+  const btn = document.getElementById('sidebarToggleBtn');
+  const open = sb.classList.toggle('mob-open');
+  btn.textContent = open ? '✕ Luk' : '☰ Medarbj.';
+}
+
+/* ══════════════════════════════════════════════════════
+   PWA – Web App Manifest + Service Worker (inline blobs)
+   Giver "Føj til hjemmeskærm" på iOS og Android
+══════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   MOBILE SIDEBAR TOGGLE - also close when clicking outside
+══════════════════════════════════════════════════════ */
+document.addEventListener('click', function(e) {
+  const sb  = document.querySelector('.sidebar');
+  const btn = document.getElementById('sidebarToggleBtn');
+  if (!sb || !btn) return;
+  if (sb.classList.contains('mob-open') && !sb.contains(e.target) && e.target !== btn) {
+    sb.classList.remove('mob-open');
+    btn.textContent = '☰ Medarbj.';
+  }
+});
+
+/* ══════════════════════════════════════════════════════
+   PWA – Service Worker (offline cache)
+══════════════════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE = 'timeseddel-v2';
+self.addEventListener('install', e => { self.skipWaiting(); });
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  if (e.request.url.includes('fonts.')) {
+    e.respondWith(
+      caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      }))
+    );
+  }
+});
+`;
+  try {
+    const swBlob = new Blob([swCode], { type: 'application/javascript' });
+    navigator.serviceWorker.register(URL.createObjectURL(swBlob), { scope: './' }).catch(() => {});
+  } catch(e) {}
+}
+
+
+function exportExcel() {
+  if (typeof XLSX === 'undefined') {
+    alert('SheetJS library ikke indlæst. Tjek internetforbindelsen og prøv igen.');
+    return;
+  }
+
+  const wb   = XLSX.utils.book_new();
+  const oe   = getOePct();
+  const m    = getMonth(), y = getYear();
+  const { days, endMonth, endYear } = getPeriodDates(m, y);
+  const periodLabel = `20.${MONTH_NAMES[m].slice(0,3)}-19.${MONTH_NAMES[endMonth].slice(0,3)} ${endYear}`;
+
+  // ── One sheet per employee ────────────────────────
+  state.employees.forEach(emp => {
+    const rows = [];
+
+    // Header rows
+    rows.push([`Timeseddel – ${emp.name}`]);
+    rows.push([`Type: ${emp.type === 'chauffør' ? 'Chauffør (Godstransport)' : 'Chaufførmedhælper'}`]);
+    rows.push([`Periode: ${periodLabel}`]);
+    rows.push([`OE-tillæg: ${(oe * 100).toFixed(2)}%`]);
+    rows.push([]);
+
+    // Column headers
+    rows.push(['Dag', 'Dato', 'Mødt', 'Gået', 'Pause (min)', 'Netto-timer', 'OT 1-3t', 'OT +3t', 'Lør.tillæg kr/t', 'Optjent inkl. OE (kr)', 'KA-sats (kr/t)']);
+
+    let totalH = 0, totalOT1 = 0, totalOT2 = 0, totalEarn = 0, totalSatH = 0;
+    let lastWeek = null;
+
+    days.forEach(date => {
+      const dow = date.getDay();
+      if (dow === 0) return;
+      const isSat  = dow === 6;
+      const dayIdx = isSat ? 5 : dow - 1;
+      const key    = dk(date);
+      const wk     = isoWeek(date);
+
+      // Week separator
+      if (wk !== lastWeek) {
+        if (lastWeek !== null) rows.push([]);
+        rows.push([`── Uge ${wk} ──`]);
+        lastWeek = wk;
+      }
+
+      const entry = getDayEntry(emp.id, key);
+      const isOff = !entry || entry.off;
+      const dateStr = date.toLocaleDateString('da-DK', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const dayName = DAYNAMES[dayIdx] + (isSat ? ' (lør)' : '');
+
+      if (isOff) {
+        rows.push([dayName, dateStr, '', '', '', '— Fri —', '', '', '', '', '']);
+        return;
+      }
+
+      const startMin = entry.startMin ?? null;
+      const endMin   = entry.endMin   ?? null;
+      const workedH  = (startMin !== null && endMin !== null)
+        ? Math.max(0, (endMin - startMin - PAUSE_MIN) / 60) : 0;
+
+      const minRate   = kaRate(emp.type, date);
+      const hourlyDay = effectiveHourly(emp, minRate);
+      const { gross, ot1H, ot2H } = computeEarnings(hourlyDay, workedH, oe, isSat);
+
+      totalH    += workedH;
+      totalOT1  += ot1H;
+      totalOT2  += ot2H;
+      totalEarn += gross;
+      if (isSat && workedH > 0) totalSatH += workedH;
+
+      rows.push([
+        dayName,
+        dateStr,
+        hhmm(startMin),
+        hhmm(endMin),
+        PAUSE_MIN,
+        parseFloat(workedH.toFixed(2)),
+        ot1H > 0 ? parseFloat(ot1H.toFixed(2)) : '',
+        ot2H > 0 ? parseFloat(ot2H.toFixed(2)) : '',
+        isSat && workedH > 0 ? SAT_TILLÆG : '',
+        parseFloat(gross.toFixed(2)),
+        parseFloat(minRate.toFixed(2))
+      ]);
+    });
+
+    // Totals
+    rows.push([]);
+    rows.push(['TOTAL', '', '', '', '', parseFloat(totalH.toFixed(2)), parseFloat(totalOT1.toFixed(2)), parseFloat(totalOT2.toFixed(2)), totalSatH > 0 ? parseFloat((totalSatH * SAT_TILLÆG * (1+oe)).toFixed(2)) : '', parseFloat(totalEarn.toFixed(2)), '']);
+
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+
+    // Column widths
+    ws['!cols'] = [
+      {wch:12},{wch:12},{wch:7},{wch:7},{wch:11},{wch:12},
+      {wch:9},{wch:9},{wch:15},{wch:22},{wch:13}
+    ];
+
+    // Safe sheet name (max 31 chars, no special chars)
+    const sheetName = emp.name.replace(/[:\/?*[\]]/g, '').slice(0, 31);
+    XLSX.utils.book_append_sheet(wb, ws, sheetName);
+  });
+
+  // ── Summary sheet ─────────────────────────────────
+  const sumRows = [];
+  sumRows.push([`Periodeopsummering – ${periodLabel}`]);
+  sumRows.push([]);
+  sumRows.push(['Navn', 'Type', 'Timer i alt', 'OT 1-3t', 'OT +3t', 'Lør.timer', 'Timeløn (kr/t)', 'Periodeløn (kr)']);
+
+  let grandTotal = 0;
+  state.employees.forEach(emp => {
+    let totalH = 0, totalOT1 = 0, totalOT2 = 0, totalEarn = 0, totalSatH = 0;
+
+    days.forEach(date => {
+      if (date.getDay() === 0) return;
+      const isSat  = date.getDay() === 6;
+      const key    = dk(date);
+      const entry  = getDayEntry(emp.id, key);
+      if (!entry || entry.off) return;
+      const startMin = entry.startMin ?? null;
+      const endMin   = entry.endMin   ?? null;
+      if (startMin === null || endMin === null) return;
+      const workedH   = Math.max(0, (endMin - startMin - PAUSE_MIN) / 60);
+      const minRate   = kaRate(emp.type, date);
+      const hourlyDay = effectiveHourly(emp, minRate);
+      const { gross, ot1H, ot2H } = computeEarnings(hourlyDay, workedH, oe, isSat);
+      totalH += workedH; totalOT1 += ot1H; totalOT2 += ot2H; totalEarn += gross;
+      if (isSat && workedH > 0) totalSatH += workedH;
+    });
+
+    grandTotal += totalEarn;
+    const minNow = kaRateToday(emp.type);
+    const hourly = effectiveHourly(emp, minNow);
+    sumRows.push([
+      emp.name,
+      emp.type,
+      parseFloat(totalH.toFixed(2)),
+      parseFloat(totalOT1.toFixed(2)),
+      parseFloat(totalOT2.toFixed(2)),
+      parseFloat(totalSatH.toFixed(2)),
+      parseFloat(hourly.toFixed(2)),
+      parseFloat(totalEarn.toFixed(2))
+    ]);
+  });
+
+  sumRows.push([]);
+  sumRows.push(['TOTAL LØNOMKOSTNING', '', '', '', '', '', '', parseFloat(grandTotal.toFixed(2))]);
+
+  const sumWs = XLSX.utils.aoa_to_sheet(sumRows);
+  sumWs['!cols'] = [{wch:22},{wch:14},{wch:12},{wch:10},{wch:10},{wch:11},{wch:15},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, sumWs, 'Opsummering');
+
+  // ── Download ──────────────────────────────────────
+  const filename = `Timeseddel_${periodLabel.replace(/[^a-zA-Z0-9æøåÆØÅ._-]/g, '_')}.xlsx`;
+  XLSX.writeFile(wb, filename);
+}
+
+</script>
+</body>
+</html>
