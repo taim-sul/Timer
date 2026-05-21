@@ -194,9 +194,10 @@ body {
 .emp-li.sel { background: var(--gold-bg); border-left: 3px solid var(--gold); }
 .emp-li.sel .eli-name { color: var(--gold-dk); }
 .eli-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.dot-c { background: var(--gold); }
+.dot-c  { background: var(--gold); }
 .dot-m  { background: var(--green); }
 .dot-mn { background: var(--blue); }
+.dot-g  { background: #c0622a; }
 .eli-name { font-weight: 500; font-size: .88rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .eli-type { font-size: .62rem; color: var(--muted); white-space: nowrap; }
 .eli-rate { font-size: .7rem; color: var(--green); font-weight: 500; margin-left: auto; white-space: nowrap; }
@@ -296,9 +297,10 @@ body {
   font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   padding: 3px 8px; border-radius: 20px;
 }
-.badge-c  { background: var(--gold); color: var(--ink); }
+.badge-c  { background: var(--gold);  color: var(--ink); }
 .badge-m  { background: var(--green); color: white; }
-.badge-mn { background: var(--blue); color: white; }
+.badge-mn { background: var(--blue);  color: white; }
+.badge-g  { background: #c0622a;      color: white; }
 .tch-period { font-size: .58rem; color: #888; }
 
 /* Rate editor */
@@ -424,9 +426,10 @@ body {
   font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
   padding: 2px 7px; border-radius: 2px;
 }
-.sb-c { background: var(--gold-bg); color: var(--gold-dk); }
+.sb-c  { background: var(--gold-bg);  color: var(--gold-dk); }
 .sb-m  { background: var(--green-bg); color: var(--green); }
 .sb-mn { background: var(--blue-bg);  color: var(--blue); }
+.sb-g  { background: #fdf0e8;         color: #c0622a; }
 .sum-grand {
   display: flex; justify-content: space-between; align-items: center;
   padding: 14px; margin-top: 12px; border-top: 2px solid var(--ink);
@@ -566,6 +569,8 @@ body {
           <button class="btn btn-gold btn-xs" onclick="addEmployee()">+ Tilføj</button>
           <button class="btn btn-ghost btn-xs" onclick="triggerPdfImport()" title="Importer fra lønseddel (PDF)" style="font-size:.65rem;padding:4px 8px;color:#8fd">⬆ PDF</button>
           <input type="file" id="pdfImportInput" accept=".pdf" multiple style="display:none" onchange="importFromPDF(this)">
+          <button class="btn btn-ghost btn-xs" onclick="triggerXlsxImport()" title="Importer medarbejdere fra Excel-lønskema" style="font-size:.65rem;padding:4px 8px;color:#adf">⬆ XLS</button>
+          <input type="file" id="xlsxImportInput" accept=".xlsx,.xls" style="display:none" onchange="importFromXlsx(this)">
           <button class="btn btn-ghost btn-xs" onclick="clearSavedData()" style="font-size:.6rem;padding:3px 7px;color:#f88">↺</button>
         </div>
       </div>
@@ -674,8 +679,18 @@ const KA_RATES = {
     { from: new Date(2025,  2,  1), rate: 160.25 },
     { from: new Date(2026,  2,  1), rate: 163.50 },
     { from: new Date(2027,  2,  1), rate: 167.50 },
+  ],
+  gls: [
+    { from: new Date(2024,  4,  1), rate: 160.25 },
+    { from: new Date(2025,  2,  1), rate: 163.50 },
+    { from: new Date(2026,  2,  1), rate: 166.75 },
+    { from: new Date(2027,  2,  1), rate: 170.75 },
   ]
 };
+
+// GLS-chauffør: starttid er 05:30–06:00 (330–360 min)
+const GLS_START_MIN = 330;  // 05:30
+const GLS_START_MAX = 360;  // 06:00
 
 /* ══════════════════════════════════════════════════════
    STATE
@@ -702,8 +717,7 @@ const MONTERING_RATE = 170.00;
 
 function kaRate(type, date) {
   if (type === 'montering') return MONTERING_RATE;
-  const schedule = KA_RATES[type];
-  if (!schedule) return MONTERING_RATE;
+  const schedule = KA_RATES[type] || KA_RATES['chauffør'];
   let rate = schedule[0].rate;
   for (const s of schedule) {
     if (date >= s.from) rate = s.rate;
@@ -915,9 +929,9 @@ function renderEmpList() {
     li.className = 'emp-li' + (emp.id === state.editEmpId ? ' sel' : '');
     li.onclick = () => selectEmpForEdit(emp.id);
     li.innerHTML = `
-      <span class="eli-dot ${emp.type === 'chauffør' ? 'dot-c' : emp.type === 'montering' ? 'dot-mn' : 'dot-m'}"></span>
+      <span class="eli-dot ${emp.type === 'chauffør' ? 'dot-c' : emp.type === 'gls' ? 'dot-g' : emp.type === 'montering' ? 'dot-mn' : 'dot-m'}"></span>
       <span class="eli-name">${emp.name}</span>
-      <span class="eli-type">${emp.type === 'chauffør' ? 'Chfr.' : 'Medhjlp.'}</span>
+      <span class="eli-type">${emp.type === 'chauffør' ? 'Chfr.' : emp.type === 'gls' ? 'GLS' : emp.type === 'montering' ? 'Mont.' : 'Medhjlp.'}</span>
       <span class="eli-rate">${hourly.toFixed(2)} kr/t</span>
       <button class="eli-del" onclick="event.stopPropagation(); deleteEmployee(${emp.id})" title="Slet">✕</button>`;
     ul.appendChild(li);
@@ -955,6 +969,7 @@ function renderEmpForm() {
       <label class="fg-lbl">Type</label>
       <select class="fg-sel" onchange="updateEmpField(${emp.id},'type',this.value)">
         <option value="chauffør"   ${emp.type==='chauffør'  ?'selected':''}>Chauffør (godstransport)</option>
+        <option value="gls"        ${emp.type==='gls'       ?'selected':''}>Chauffør (GLS)</option>
         <option value="medhælper"  ${emp.type==='medhælper' ?'selected':''}>Chaufførmedhælper</option>
         <option value="montering"  ${emp.type==='montering' ?'selected':''}>Monteringsmedarbejder</option>
       </select>
@@ -1085,7 +1100,7 @@ function renderEmpNav() {
       <button class="emp-nav-arr" onclick="selectTab(${prev?.id})" ${!prev ? 'disabled' : ''}>‹</button>
       <div class="emp-nav-info">
         <div class="emp-nav-name">${emp ? emp.name : '—'}</div>
-        <div class="emp-nav-sub">${emp ? (emp.type === 'chauffør' ? 'Chauffør' : emp.type === 'montering' ? 'Monterings' : 'Medhælper') : ''} · ${idx+1}/${state.employees.length}</div>
+        <div class="emp-nav-sub">${emp ? (emp.type === 'chauffør' ? 'Chauffør' : emp.type === 'gls' ? 'GLS' : emp.type === 'montering' ? 'Monterings' : 'Medhælper') : ''} · ${idx+1}/${state.employees.length}</div>
         <div class="emp-nav-dots">${dots}</div>
       </div>
       <button class="emp-nav-arr" onclick="selectTab(${next?.id})" ${!next ? 'disabled' : ''}>›</button>
@@ -1104,8 +1119,10 @@ function buildCard(emp) {
   let seenWeeks = new Set();
   let lastKaRate = null;
 
-  const isMontage = emp.type === 'montering';
-  const workDays = isMontage
+  const isMontage   = emp.type === 'montering';
+  const isGLS       = emp.type === 'gls';
+  const weekdayOnly = isMontage || isGLS;
+  const workDays = weekdayOnly
     ? days.filter(d => { const dw = d.getDay(); return dw >= 1 && dw <= 5; })
     : days.filter(d => d.getDay() !== 0);
 
@@ -1330,7 +1347,7 @@ function renderSummary() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="font-weight:500">${emp.name}</td>
-      <td><span class="sum-badge ${emp.type==='chauffør'?'sb-c':'sb-m'}">${emp.type}</span></td>
+      <td><span class="sum-badge ${emp.type==='chauffør'?'sb-c':emp.type==='gls'?'sb-g':emp.type==='montering'?'sb-mn':'sb-m'}">${emp.type==='chauffør'?'Chauffør':emp.type==='gls'?'GLS':emp.type==='montering'?'Monterings':'Medhælper'}</span></td>
       <td style="text-align:center;color:var(--blue);font-weight:500">${fmtH(totalH) || '0t 00m'}</td>
       <td style="text-align:center;color:var(--orange)">${totalOT1 > 0 ? fmtH(totalOT1) : '—'}</td>
       <td style="text-align:center;color:var(--red)">${totalOT2 > 0 ? fmtH(totalOT2) : '—'}</td>
@@ -1637,8 +1654,8 @@ function applyReverse() {
     if (!target || target <= 0) return;
     anyApplied = true;
 
-    // Montering: kun hverdage, ingen lørdage
-    const empSaturdays = emp.type === 'montering' ? [] : saturdays;
+    // Montering + GLS: kun hverdage, ingen lørdage
+    const empSaturdays = (emp.type === 'montering' || emp.type === 'gls') ? [] : saturdays;
 
     // Wipe existing day entries for this employee in this period
     if (!state.dayEntries[emp.id]) state.dayEntries[emp.id] = {};
@@ -1654,7 +1671,7 @@ function applyReverse() {
       if (remaining <= 0) break;
       const hoursToday = Math.min(remaining, NORMAL_H_DAY);
       remaining -= hoursToday;
-      const entry = buildEntryFromHours(hoursToday, false);
+      const entry = buildEntryFromHours(hoursToday, false, emp.type);
       state.dayEntries[emp.id][dk(date)] = entry;
     }
 
@@ -1662,7 +1679,7 @@ function applyReverse() {
       if (remaining <= 0) break;
       const hoursToday = Math.min(remaining, SAT_MAX);
       remaining -= hoursToday;
-      const entry = buildEntryFromHours(hoursToday, true);
+      const entry = buildEntryFromHours(hoursToday, true, emp.type);
       state.dayEntries[emp.id][dk(date)] = entry;
     }
   });
@@ -1671,10 +1688,15 @@ function applyReverse() {
   renderAll();
 }
 
-function buildEntryFromHours(netHours, isSat) {
-  // Pick a realistic start time, compute end from net hours + pause
-  const startMin = r5(randInt(7 * 60 + 35, 9 * 60 + 55));
-  const endMin   = Math.round(startMin + netHours * 60 + PAUSE_MIN);
+function buildEntryFromHours(netHours, isSat, empType) {
+  // GLS-chauffør: starttid 05:30–06:00. Øvrige: 07:35–09:55
+  let startMin;
+  if (empType === 'gls') {
+    startMin = r5(randInt(GLS_START_MIN, GLS_START_MAX));
+  } else {
+    startMin = r5(randInt(7 * 60 + 35, 9 * 60 + 55));
+  }
+  const endMin = Math.round(startMin + netHours * 60 + PAUSE_MIN);
   return { off: false, startMin, endMin };
 }
 
@@ -1765,7 +1787,7 @@ function exportExcel() {
 
     // Header rows
     rows.push([`${getCompany()} – Timeseddel – ${emp.name}`]);
-    rows.push([`Type: ${emp.type === 'chauffør' ? 'Chauffør (Godstransport)' : 'Chaufførmedhælper'}`]);
+    rows.push([`Type: ${emp.type === 'chauffør' ? 'Chauffør (Godstransport)' : emp.type === 'gls' ? 'Chauffør (GLS)' : emp.type === 'montering' ? 'Monteringsmedarbejder' : 'Chaufførmedhælper'}`]);
     rows.push([`Periode: ${periodLabel}`]);
     rows.push([`OE-tillæg: ${(oe * 100).toFixed(2)}%`]);
     rows.push([]);
@@ -1934,7 +1956,7 @@ function distributeHoursForEmployee(empId, targetHours) {
   const { days } = getPeriodDates(getMonth(), getYear());
 
   // Montering: kun hverdage. Øvrige: hverdage + lørdage
-  const isMont = emp.type === 'montering';
+  const isMont = emp.type === 'montering' || emp.type === 'gls';
   const weekdays  = days.filter(d => { const dw = d.getDay(); return dw >= 1 && dw <= 5; });
   const saturdays = isMont ? [] : days.filter(d => d.getDay() === 6);
   const SAT_MAX   = 5;
@@ -1952,14 +1974,14 @@ function distributeHoursForEmployee(empId, targetHours) {
     if (remaining <= 0) break;
     const hoursToday = Math.min(remaining, NORMAL_H_DAY);
     remaining -= hoursToday;
-    state.dayEntries[empId][dk(date)] = buildEntryFromHours(hoursToday, false);
+    state.dayEntries[empId][dk(date)] = buildEntryFromHours(hoursToday, false, emp.type);
   }
 
   for (const date of saturdays) {
     if (remaining <= 0) break;
     const hoursToday = Math.min(remaining, SAT_MAX);
     remaining -= hoursToday;
-    state.dayEntries[empId][dk(date)] = buildEntryFromHours(hoursToday, true);
+    state.dayEntries[empId][dk(date)] = buildEntryFromHours(hoursToday, true, emp.type);
   }
 }
 
@@ -2088,7 +2110,7 @@ function exportPDF() {
     const h  = effectiveHourly(emp, mn);
     sumRows += `<tr>
       <td>${emp.name}</td>
-      <td><span class="sum-badge ${emp.type==='chauff\u00f8r'?'badge-c':emp.type==='montering'?'badge-mn':'badge-m'}">${emp.type==='chauff\u00f8r'?'Chauff\u00f8r':emp.type==='montering'?'Monterings':'Medh\u00e6lper'}</span></td>
+      <td><span class="sum-badge ${emp.type==='chauff\u00f8r'?'badge-c':emp.type==='gls'?'badge-g':emp.type==='montering'?'badge-mn':'badge-m'}">${emp.type==='chauff\u00f8r'?'Chauff\u00f8r':emp.type==='gls'?'GLS':emp.type==='montering'?'Monterings':'Medh\u00e6lper'}</span></td>
       <td class="tc">${tH.toFixed(2)}t</td>
       <td class="tc ot1">${tOT1>0?tOT1.toFixed(2):'\u2014'}</td>
       <td class="tc ot2">${tOT2>0?tOT2.toFixed(2):'\u2014'}</td>
@@ -2111,6 +2133,7 @@ function exportPDF() {
     .badge-c  { background:#bf8c08; color:#14140c; }
     .badge-m  { background:#1d5e33; color:#fff; }
     .badge-mn { background:#163060; color:#fff; }
+    .badge-g  { background:#c0622a; color:#fff; }
     .emp-rate { font-size:9px; color:#bbb; }
     table { width:100%; border-collapse:collapse; font-size:10px; margin-top:0; }
     th { padding:5px 6px; background:#f1ede4; border-bottom:1.5px solid #d8d3c4; font-size:8px; letter-spacing:.08em; text-transform:uppercase; color:#888; font-weight:600; }
@@ -2160,6 +2183,96 @@ function exportPDF() {
    Udtrækker navn og timeløn fra Intect-format lønsedler
    Opretter medarbejder som monteringsmedarbejder (170 kr/t)
 ══════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════
+   EXCEL LØNSKEMA IMPORT (Pakkepiloten-format)
+   Format: kolA=MedarbejNr, kolB=Navn, kolC=Timepris, kolD=Tillæg%
+   Header-række ignoreres (starter data fra række med tal i kolA)
+══════════════════════════════════════════════════════ */
+
+function triggerXlsxImport() {
+  document.getElementById('xlsxImportInput').value = '';
+  document.getElementById('xlsxImportInput').click();
+}
+
+async function importFromXlsx(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  try {
+    const data = await file.arrayBuffer();
+    const wb   = XLSX.read(data, { type: 'array' });
+
+    // Brug første ark
+    const ws   = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null });
+
+    let imported = 0, skipped = 0, invalid = 0;
+    const results = [];
+
+    for (const row of rows) {
+      // Gyldige rækker: kolA skal være et tal (medarbejdernr), kolB skal være en streng (navn)
+      const medNr  = row[0];
+      const navn   = typeof row[1] === 'string' ? row[1].trim() : null;
+      const pris   = typeof row[2] === 'number' ? row[2] : null;
+      const tillæg = typeof row[3] === 'number' ? row[3] : null;
+
+      if (typeof medNr !== 'number' || !navn || navn.length < 2) continue;
+
+      // Duplikat-check
+      const exists = state.employees.find(e =>
+        e.name.toLowerCase().trim() === navn.toLowerCase()
+      );
+      if (exists) {
+        results.push(`⚠ ${navn} – findes allerede, sprunget over`);
+        skipped++;
+        continue;
+      }
+
+      const id = state.nextId++;
+      const emp = {
+        id,
+        name:          navn,
+        type:          'gls',
+        targetMonthly: ''
+      };
+      state.employees.push(emp);
+
+      // Brug timepris fra filen hvis til stede, ellers KA-sats
+      if (pris && pris > 0) {
+        state.manualRates[id] = pris;
+      }
+
+      // Sæt OE-tillæg fra filen hvis forskellig fra nuværende
+      if (tillæg && tillæg > 0) {
+        const currentOe = parseFloat(document.getElementById('oeInp').value) / 100;
+        if (Math.abs(tillæg - currentOe) > 0.0001) {
+          document.getElementById('oeInp').value = (tillæg * 100).toFixed(2);
+        }
+      }
+
+      if (!state.activeEmpId) state.activeEmpId = id;
+      if (!state.editEmpId)   state.editEmpId   = id;
+
+      const prisStr = pris ? ` – ${pris.toFixed(2)} kr/t` : '';
+      results.push(`✓ ${navn}${prisStr}`);
+      imported++;
+    }
+
+    renderAll();
+    saveState();
+
+    const summary = `Importeret ${imported} GLS-chauffør${imported !== 1 ? 'er' : ''} fra "${file.name}"`
+      + (skipped  ? `, ${skipped} sprunget over` : '')
+      + (invalid  ? `, ${invalid} ugyldige rækker` : '')
+      + ':\n\n' + results.join('\n');
+    alert(summary);
+
+  } catch(e) {
+    alert(`Fejl ved læsning af Excel-fil:\n${e.message}`);
+  }
+}
+
 
 function triggerPdfImport() {
   document.getElementById('pdfImportInput').value = '';
